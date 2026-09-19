@@ -11,6 +11,7 @@ import { TimeBankProfile } from './components/community/TimeBankProfile';
 import { AdminLogin } from './components/admin/AdminLogin';
 import { AdminShell } from './components/admin/AdminShell';
 import { UserAuthModal } from './components/common/UserAuthModal';
+import { UserLoginPage } from './components/common/UserLoginPage';
 import { SkillCard } from './types';
 import { Heart, Sparkles, Compass } from 'lucide-react';
 
@@ -26,7 +27,7 @@ const MainUserPortal: React.FC = () => {
 
   const handleInitiateSwap = (card: SkillCard) => {
     if (!isLoggedIn) {
-      openAuthModal('login');
+      window.location.hash = '#/logging';
       return;
     }
     setSelectedSwapCard(card);
@@ -44,7 +45,7 @@ const MainUserPortal: React.FC = () => {
           <SkillMarketplace
             onOpenPublishModal={() => {
               if (!isLoggedIn) {
-                openAuthModal('login');
+                window.location.hash = '#/logging';
                 return;
               }
               setIsPublishModalOpen(true);
@@ -116,7 +117,7 @@ const AdminApp: React.FC<{ onNavigateHome: () => void }> = ({ onNavigateHome }) 
 };
 
 /**
- * 全局应用根路由网关 (彻底物理隔离前台与后台)
+ * 全局应用根路由网关 (物理隔离：前台 /logging 登录页 / 后台)
  */
 export default function App() {
   const checkIsAdmin = (): boolean => {
@@ -125,11 +126,26 @@ export default function App() {
     return hash.startsWith('#/admin') || hash === '#admin' || pathname.startsWith('/admin');
   };
 
+  const checkIsLogin = (): boolean => {
+    const hash = window.location.hash.toLowerCase();
+    const pathname = window.location.pathname.toLowerCase();
+    return (
+      hash.startsWith('#/logging') ||
+      hash.startsWith('#/login') ||
+      hash === '#logging' ||
+      hash === '#login' ||
+      pathname.startsWith('/logging') ||
+      pathname.startsWith('/login')
+    );
+  };
+
   const [isAdminRoute, setIsAdminRoute] = useState<boolean>(checkIsAdmin);
+  const [isLoginRoute, setIsLoginRoute] = useState<boolean>(checkIsLogin);
 
   useEffect(() => {
     const handleRoute = () => {
       setIsAdminRoute(checkIsAdmin());
+      setIsLoginRoute(checkIsLogin());
     };
 
     window.addEventListener('hashchange', handleRoute);
@@ -141,8 +157,12 @@ export default function App() {
   }, []);
 
   const navigateToHome = () => {
+    if (window.location.pathname.includes('log')) {
+      window.history.pushState(null, '', '/');
+    }
     window.location.hash = '';
     setIsAdminRoute(false);
+    setIsLoginRoute(false);
   };
 
   // 管理后台独立域
@@ -152,6 +172,15 @@ export default function App() {
         <AdminDataProvider>
           <AdminApp onNavigateHome={navigateToHome} />
         </AdminDataProvider>
+      </AppProvider>
+    );
+  }
+
+  // 独立用户登录/注册页 (/logging 或 /login)
+  if (isLoginRoute) {
+    return (
+      <AppProvider>
+        <UserLoginPage onNavigateHome={navigateToHome} />
       </AppProvider>
     );
   }

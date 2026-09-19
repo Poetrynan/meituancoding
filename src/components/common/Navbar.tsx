@@ -38,7 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPublishModal }) => {
 
   const handlePublishClick = () => {
     if (!isLoggedIn) {
-      openAuthModal('login');
+      window.location.hash = '#/logging';
       return;
     }
     onOpenPublishModal();
@@ -124,13 +124,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPublishModal }) => {
           {!isLoggedIn ? (
             <div className="flex items-center gap-2 flex-shrink-0">
               <button
-                onClick={() => openAuthModal('login')}
+                onClick={() => { window.location.hash = '#/logging'; }}
                 className="px-3.5 py-1.5 rounded-xl text-xs font-bold text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition-all cursor-pointer"
               >
                 登录
               </button>
               <button
-                onClick={() => openAuthModal('register')}
+                onClick={() => { window.location.hash = '#/logging?mode=register'; }}
                 className="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#9E5A44] hover:bg-[#854B38] text-white shadow-sm transition-all cursor-pointer"
               >
                 注册入驻
