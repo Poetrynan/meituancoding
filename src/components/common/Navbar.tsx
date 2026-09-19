@@ -91,7 +91,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPublishModal }) => {
                 }`}
               >
                 <Briefcase className="w-3.5 h-3.5 flex-shrink-0" />
-                <span className="whitespace-nowrap">互换协作看板</span>
+                <span className="whitespace-nowrap">协作看板</span>
                 {activeContractsCount > 0 && (
                   <span className="ml-0.5 px-1.5 py-0.2 bg-[#9E5A44] text-white rounded-full text-[10px] font-bold">
                     {activeContractsCount}
@@ -108,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPublishModal }) => {
                 }`}
               >
                 <Coins className="w-3.5 h-3.5 flex-shrink-0" />
-                <span className="whitespace-nowrap">时光银行</span>
+                <span className="whitespace-nowrap">时光存折</span>
               </button>
             </nav>
           </div>

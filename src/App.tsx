@@ -66,49 +66,26 @@ const MainUserPortal: React.FC = () => {
       {/* 全局 Toast 通知 */}
       <ToastContainer />
 
-      {/* 底部温暖手作页脚 */}
-      <footer className="mt-16 border-t border-craft-border bg-[#F5EFEB]/80 py-8 px-4 text-center">
-        <div className="max-w-4xl mx-auto space-y-3">
+      {/* 底部页脚 */}
+      <footer className="mt-20 border-t border-stone-200/80 bg-[#FAF7F2] py-8 px-4 text-center">
+        <div className="max-w-4xl mx-auto space-y-2">
           <div className="flex items-center justify-center gap-2">
-            <span className="font-handcraft text-base font-bold text-craft-ink">
+            <span className="font-handcraft text-sm font-bold text-stone-900">
               巧遇 · 匠心 (SkillCraft)
             </span>
-            <span className="stamp-badge text-[10px] text-craft-terracotta border-craft-terracotta">
-              WARM BARTER COMMUNITY
-            </span>
+            <span className="text-xs text-stone-400">·</span>
+            <span className="text-xs text-stone-500">技能互换社区</span>
           </div>
 
-          <p className="text-xs text-craft-ink-light max-w-lg mx-auto leading-relaxed">
-            打破传统昂贵报班与自学无伴的困局，通过「1v1 直连」与「时间银行」双轨机制，让吉他、摄影、编程等每一种热爱在这里温暖相逢。
-          </p>
-
-          <div className="flex items-center justify-center gap-4 text-[11px] text-craft-ink-muted pt-2 border-t border-craft-border/50">
-            <span className="flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-craft-amber" />
-              AI 智能课纲助教
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1">
-              <ShieldCheck className="w-3 h-3 text-craft-forest" />
-              中枢质押防鸽单
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1">
-              <Heart className="w-3 h-3 text-craft-terracotta" />
-              温暖邻里技艺切磋
-            </span>
-          </div>
-
-          {/* 离散管理入口 (面向平台运营与仲裁团队) */}
-          <div className="pt-3 text-[11px] text-stone-400 flex items-center justify-center gap-2">
-            <span>SkillCraft Community © 2026</span>
+          <div className="pt-2 text-xs text-stone-400 flex items-center justify-center gap-2">
+            <span>SkillCraft © 2026</span>
             <span>·</span>
             <a
               href="#/admin"
-              className="inline-flex items-center gap-1 hover:text-stone-700 transition-colors text-stone-400 font-mono text-[10px]"
+              className="inline-flex items-center gap-1 hover:text-stone-700 transition-colors text-stone-400 text-xs cursor-pointer"
             >
-              <Shield className="w-3 h-3 text-stone-400" />
-              <span>管理控制台 (Admin Console)</span>
+              <Shield className="w-3.5 h-3.5 text-stone-400" />
+              <span>管理控制台</span>
             </a>
           </div>
         </div>

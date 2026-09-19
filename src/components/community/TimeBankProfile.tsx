@@ -52,16 +52,11 @@ export const TimeBankProfile: React.FC = () => {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* 顶部标题 */}
       <div>
-        <div className="flex items-center gap-2 mb-1">
-          <span className="stamp-badge text-[11px] font-bold text-craft-amber bg-craft-amber-light border-craft-amber">
-            TIME BANK PASSBOOK
-          </span>
-        </div>
-        <h1 className="text-2xl sm:text-3xl font-bold font-handcraft text-craft-ink">
-          个人时光存折与手账荣誉
+        <h1 className="text-2xl sm:text-3xl font-bold font-handcraft text-stone-900">
+          时光存折
         </h1>
-        <p className="text-xs text-craft-ink-light mt-1">
-          每一份付出的授课时光，都会化为点亮他人心智的星火与永久存续的时间财富
+        <p className="text-xs text-stone-500 mt-1">
+          记录你的授课学时与时光币流转明细
         </p>
       </div>
 
@@ -96,8 +91,8 @@ export const TimeBankProfile: React.FC = () => {
             </div>
 
             <div className="text-left sm:text-right">
-              <span className="text-[10px] font-mono tracking-widest text-craft-ink-muted uppercase">
-                PASSBOOK NO.
+              <span className="text-[10px] font-mono tracking-wider text-stone-400 uppercase">
+                账户编号
               </span>
               <p className="font-mono text-sm font-bold text-craft-ink">
                 TIME-BANK-88231-{currentUser.id.toUpperCase()}

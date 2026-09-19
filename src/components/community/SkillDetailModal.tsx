@@ -85,9 +85,9 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
             {isDirectMatch && (
-              <div className="absolute top-4 left-4 bg-gradient-to-r from-craft-amber to-[#E5A93C] text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5 animate-pulse">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>天作之合 · 你们的教与学刚好互补！</span>
+              <div className="absolute top-4 left-4 bg-[#9E5A44] text-white text-xs font-medium px-3 py-1 rounded-full shadow-md flex items-center gap-1.5">
+                <ArrowRightLeft className="w-3.5 h-3.5" />
+                <span>双向匹配 · 适合 1对1 互换</span>
               </div>
             )}
 
@@ -226,27 +226,27 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({
               </span>
             </div>
 
-            {/* 交易安全提示小卡 */}
-            <div className="bg-craft-forest-light/60 p-3.5 rounded-2xl border border-craft-forest/20 flex items-start gap-2.5 text-xs text-craft-forest-dark">
-              <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-craft-forest mt-0.5" />
+            {/* 履约保障提示 */}
+            <div className="bg-stone-50 p-3.5 rounded-2xl border border-stone-200 flex items-start gap-2.5 text-xs text-stone-600">
+              <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-emerald-600 mt-0.5" />
               <div>
-                <p className="font-bold">巧遇·时光银行履约保障：</p>
-                <p className="text-[11px] opacity-90 leading-relaxed">
-                  发起互换后，系统将由 AI 助教协助双方生成结构化《3阶段学习大纲契约》。课时时光币将进入中枢质押池，每次双方打卡完成后自动划转，杜绝翻车鸽单。
+                <p className="font-semibold text-stone-800">时光存折履约说明：</p>
+                <p className="text-[11px] text-stone-500 leading-relaxed mt-0.5">
+                  发起互换后，双方将约定分阶段学习计划。课时学时由平台托管，每次打卡确认后结清交付。
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* 固定底部发起互换栏：永远停留在卡片底端，操作一目了然 */}
-        <div className="p-4 bg-craft-paper border-t border-craft-border flex items-center justify-between gap-4 flex-shrink-0">
+        {/* 固定底部发起互换栏 */}
+        <div className="p-4 bg-stone-50 border-t border-stone-200 flex items-center justify-between gap-4 flex-shrink-0">
           <div className="flex items-center gap-2">
-            <Coins className="w-5 h-5 text-craft-amber" />
+            <Coins className="w-5 h-5 text-amber-600" />
             <div>
-              <p className="text-xs text-craft-ink-light">消耗学时币</p>
-              <p className="text-sm font-bold text-craft-ink">
-                {isDirectMatch ? '0 时光币 (1v1免质押)' : `${card.teachSkill.costCredits} 时光币 / 课`}
+              <p className="text-xs text-stone-500">消耗学时币</p>
+              <p className="text-sm font-bold text-stone-900">
+                {isDirectMatch ? '0 时光币 (1对1直接互换)' : `${card.teachSkill.costCredits} 时光币 / 课`}
               </p>
             </div>
           </div>
@@ -254,7 +254,7 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl text-sm font-semibold text-craft-ink-light hover:bg-black/5 transition-colors"
+              className="px-4 py-2.5 rounded-xl text-sm font-semibold text-stone-600 hover:bg-stone-200/60 transition-colors cursor-pointer"
             >
               再看看
             </button>
@@ -263,14 +263,10 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({
                 onClose();
                 onInitiateSwap(card);
               }}
-              className={`px-6 py-2.5 rounded-xl text-sm font-bold shadow-md transition-all flex items-center gap-2 ${
-                isDirectMatch
-                  ? 'bg-gradient-to-r from-craft-amber to-[#E5A93C] text-craft-ink hover:scale-105'
-                  : 'bg-craft-terracotta text-white hover:bg-craft-terracotta-dark hover:scale-105'
-              }`}
+              className="px-6 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-all flex items-center gap-2 bg-[#9E5A44] hover:bg-[#7F4330] text-white cursor-pointer"
             >
-              <Sparkles className="w-4 h-4" />
-              {isDirectMatch ? '立即开启 1v1 浪漫互换' : '发起换学契约'}
+              <ArrowRightLeft className="w-4 h-4" />
+              <span>{isDirectMatch ? '发起 1对1 互换' : '发起请教'}</span>
             </button>
           </div>
         </div>

@@ -86,34 +86,33 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
 
   if (!isOpen) return null;
 
-  // AI 智能润色与提炼卖点
+  // 生成参考简介与标签
   const handleAiPolish = () => {
     if (!teachName.trim()) {
-      alert('请先填写您能教授的技能名称，AI 才能精准提炼卖点哦！');
+      alert('请先填写您能教授的技能名称');
       return;
     }
 
     setIsAiPolishing(true);
     setTimeout(() => {
-      // 模拟根据技能名称生成的自然温馨文案与标签
       if (teachName.includes('吉他') || teachName.includes('琴') || teachName.includes('乐')) {
         setTeachDescription(
-          `【这门课带你收获什么】\n从基础持琴与触弦呼吸感出发，破除按弦生疼、和弦切换卡顿的瓶颈。\n拒绝死记硬背枯燥乐理，通过 3 阶段阶梯练习，手把手带你弹下一首完整的旋律，附赠私人定制练习音频指导！`
+          `适合零基础或有简单弹唱基础的朋友。主要带你熟悉基本持琴姿势、节奏律动与右手指弹发音细节，逐步完成一首完整指弹曲目的练习。`
         );
-        setHighlightTags(['拒绝死磕和弦', '发音触弦拆解', '自学不踩坑', '附赠定制练习指谱']);
+        setHighlightTags(['零基础友好', '指法拆解', '节奏练习', '耐心指导']);
       } else if (teachName.includes('Python') || teachName.includes('代码') || teachName.includes('程序')) {
         setTeachDescription(
-          `【这门课带你收获什么】\n告别晦涩算法与死板语法，专为非计算机背景朋友设计！\n从配置本地环境开始，带你手把手写出第一个自动批量整理文件、网络数据抓取并发送报表的极简 Python 脚本。`
+          `面向零编程基础朋友，带你配置本地 Python 环境，通过简单实用的脚本掌握网络数据处理与自动化文件整理，即学即用。`
         );
-        setHighlightTags(['小白友好', '办公自动化', '即学即用脚本', '代码伴学纠错']);
+        setHighlightTags(['零基础入门', '办公自动化', '代码演练', '答疑辅导']);
       } else {
         setTeachDescription(
-          `【这门课带你收获什么】\n结合我多年的经验沉淀，将复杂步骤拆解为直观易懂的 3 步法。\n注重实战互动与细节反馈，课后提供清单式练习指导，让你在轻松愉悦的切磋氛围中掌握这项温情技艺。`
+          `梳理核心基础要点与常见误区，结合具体实践练习，拆解步骤耐心解答遇到的难点与疑问。`
         );
-        setHighlightTags(['实战上手', '细节拆解', '真诚切磋', '贴心伴学']);
+        setHighlightTags(['实操上手', '步骤拆解', '耐心答疑', '轻松交流']);
       }
       setIsAiPolishing(false);
-    }, 900);
+    }, 600);
   };
 
   const handleAddTag = () => {
@@ -173,11 +172,9 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
         {/* 顶部标题与关闭 */}
         <div className="p-6 pb-4 border-b border-craft-border flex items-center justify-between bg-craft-paper flex-shrink-0">
           <div>
-            <span className="stamp-badge text-[11px] font-bold text-craft-terracotta bg-craft-terracotta-light border-craft-terracotta mb-1">
-              STEP {step} / 2
-            </span>
             <h2 className="text-xl font-bold font-handcraft text-craft-ink">
-              {step === 1 ? '第一步：发布我能教的一技之长' : '第二步：明确我渴望学成的新技能'}
+              {step === 1 ? '发布我能教的技能' : '填写我想学的技能'}{' '}
+              <span className="text-xs font-sans text-stone-400 font-normal">({step}/2)</span>
             </h2>
           </div>
 
@@ -294,7 +291,7 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
                 </div>
               </div>
 
-              {/* 核心亮点：AI 智能润色助手 */}
+              {/* 教学特色与生成参考 */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <label className="text-xs font-bold text-craft-ink">
@@ -305,10 +302,10 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
                     type="button"
                     onClick={handleAiPolish}
                     disabled={isAiPolishing}
-                    className="flex items-center gap-1.5 text-xs font-bold text-craft-terracotta bg-craft-terracotta-light hover:bg-craft-terracotta/20 px-2.5 py-1 rounded-lg border border-craft-terracotta/30 transition-all cursor-pointer"
+                    className="flex items-center gap-1.5 text-xs font-semibold text-[#9E5A44] bg-[#9E5A44]/10 hover:bg-[#9E5A44]/20 px-2.5 py-1 rounded-lg border border-[#9E5A44]/20 transition-all cursor-pointer"
                   >
                     <Wand2 className={`w-3.5 h-3.5 ${isAiPolishing ? 'animate-spin' : ''}`} />
-                    <span>{isAiPolishing ? 'AI 正在提炼卖点...' : 'AI 智能润色提炼卖点'}</span>
+                    <span>{isAiPolishing ? '生成中...' : '生成参考简介'}</span>
                   </button>
                 </div>
 
@@ -317,7 +314,7 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
                   rows={4}
                   value={teachDescription}
                   onChange={(e) => setTeachDescription(e.target.value)}
-                  placeholder="用温情真诚的口吻写写：你能带伙伴收获什么？从零基础怎么学？教学氛围是怎样的？"
+                  placeholder="介绍一下你能带伙伴学习什么内容、适合什么样的基础、教学节奏等..."
                   className="w-full p-3 bg-craft-paper rounded-xl border border-craft-border text-xs text-craft-ink focus:outline-none focus:border-craft-terracotta transition-colors leading-relaxed"
                 />
               </div>

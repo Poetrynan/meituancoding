@@ -61,51 +61,46 @@ export const SwapWorkbench: React.FC = () => {
       {/* 顶部标题栏 */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="stamp-badge text-[11px] font-bold text-craft-forest bg-craft-forest-light border-craft-forest">
-              COLLABORATION WORKBENCH
-            </span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-handcraft text-craft-ink">
-            互换协作看板与履约打卡
+          <h1 className="text-2xl sm:text-3xl font-bold font-handcraft text-stone-900">
+            互换协作看板
           </h1>
-          <p className="text-xs text-craft-ink-light mt-1">
-            按签署课纲分步打卡，时光币质押安全托管，完成即可自动解冻交付
+          <p className="text-xs text-stone-500 mt-1">
+            按约定课纲分步打卡，双方确认后自动结清学时
           </p>
         </div>
 
         {/* 顶部统计卡片 */}
         <div className="flex items-center gap-3">
-          <div className="bg-white p-3 rounded-2xl border border-craft-border shadow-sm text-center min-w-[90px]">
-            <p className="text-[11px] text-craft-ink-muted">进行中契约</p>
-            <p className="text-lg font-bold text-craft-terracotta">{activeCount}</p>
+          <div className="bg-white p-3 rounded-2xl border border-stone-200 shadow-sm text-center min-w-[90px]">
+            <p className="text-[11px] text-stone-500">进行中</p>
+            <p className="text-lg font-bold text-[#9E5A44]">{activeCount}</p>
           </div>
-          <div className="bg-white p-3 rounded-2xl border border-craft-border shadow-sm text-center min-w-[90px]">
-            <p className="text-[11px] text-craft-ink-muted">已结课交付</p>
-            <p className="text-lg font-bold text-craft-forest">{completedCount}</p>
+          <div className="bg-white p-3 rounded-2xl border border-stone-200 shadow-sm text-center min-w-[90px]">
+            <p className="text-[11px] text-stone-500">已完成</p>
+            <p className="text-lg font-bold text-emerald-700">{completedCount}</p>
           </div>
-          <div className="bg-white p-3 rounded-2xl border border-craft-border shadow-sm text-center min-w-[90px]">
-            <p className="text-[11px] text-craft-ink-muted">质押时光币</p>
-            <p className="text-lg font-bold text-craft-amber">{totalStaked} 币</p>
+          <div className="bg-white p-3 rounded-2xl border border-stone-200 shadow-sm text-center min-w-[90px]">
+            <p className="text-[11px] text-stone-500">托管学时</p>
+            <p className="text-lg font-bold text-amber-600">{totalStaked} 币</p>
           </div>
         </div>
       </div>
 
       {/* 状态筛选标签 */}
-      <div className="flex items-center gap-2 border-b border-craft-border pb-3">
+      <div className="flex items-center gap-2 border-b border-stone-200 pb-3">
         {[
-          { key: 'all', label: `全部契约 (${userContracts.length})` },
-          { key: 'active', label: `履约进行中 (${activeCount})` },
-          { key: 'completed', label: `已圆满结课 (${completedCount})` },
-          { key: 'disputed', label: `仲裁申诉中 (${disputedCount})` },
+          { key: 'all', label: `全部 (${userContracts.length})` },
+          { key: 'active', label: `进行中 (${activeCount})` },
+          { key: 'completed', label: `已完成 (${completedCount})` },
+          { key: 'disputed', label: `申诉中 (${disputedCount})` },
         ].map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveFilter(tab.key as any)}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
               activeFilter === tab.key
-                ? 'bg-craft-terracotta text-white shadow-sm'
-                : 'bg-white text-craft-ink-light border border-craft-border hover:bg-craft-paper'
+                ? 'bg-[#9E5A44] text-white shadow-sm'
+                : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-50'
             }`}
           >
             {tab.label}

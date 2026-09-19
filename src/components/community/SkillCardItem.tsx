@@ -94,15 +94,15 @@ export const SkillCardItem: React.FC<SkillCardItemProps> = ({
           : 'border-stone-200/80 shadow-[0_2px_12px_rgba(44,40,37,0.04)] hover:shadow-[0_8px_24px_rgba(44,40,37,0.08)] hover:-translate-y-1 hover:border-stone-300'
       }`}
     >
-      {/* 天作之合高光内嵌横幅 */}
+      {/* 双向匹配横条 */}
       {isDirectMatch && (
-        <div className="bg-gradient-to-r from-amber-500/15 via-amber-400/25 to-amber-500/15 border-b border-amber-300/50 px-4 py-2 flex items-center justify-between">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900">
-            <Sparkles className="w-3.5 h-3.5 text-amber-600 animate-pulse" />
-            <span className="whitespace-nowrap">天作之合 · 需求双向吻合</span>
+        <div className="bg-amber-50/90 border-b border-amber-200/70 px-3.5 py-1.5 flex items-center justify-between">
+          <div className="flex items-center gap-1.5 text-xs font-medium text-amber-900">
+            <ArrowRightLeft className="w-3.5 h-3.5 text-amber-700" />
+            <span>双向契合</span>
           </div>
-          <span className="text-[10px] font-bold bg-amber-600 text-white px-2 py-0.5 rounded-full whitespace-nowrap">
-            免时光币直换
+          <span className="text-[11px] text-amber-800 font-medium">
+            支持 1对1 直换
           </span>
         </div>
       )}
@@ -194,16 +194,18 @@ export const SkillCardItem: React.FC<SkillCardItemProps> = ({
           ))}
         </div>
 
-        {/* 换学对比卡片 */}
+        {/* 换学意向 */}
         <div className="bg-[#FAF7F2] rounded-xl p-2.5 border border-stone-200/60 mt-auto">
-          <div className="flex items-center gap-1.5 text-xs text-[#9E5A44] font-bold mb-1">
+          <div className="flex items-center gap-1.5 text-xs text-[#9E5A44] font-semibold mb-0.5">
             <ArrowRightLeft className="w-3.5 h-3.5 flex-shrink-0" />
-            <span className="whitespace-nowrap text-[11px]">想换学：</span>
-            <span className="text-stone-800 truncate">{card.learnSkill.name}</span>
+            <span className="whitespace-nowrap text-[11px] text-stone-600">想学：</span>
+            <span className="text-stone-900 font-medium truncate">{card.learnSkill.name}</span>
           </div>
-          <p className="text-[11px] text-stone-500 line-clamp-1">
-            目标：{card.learnSkill.targetGoal}
-          </p>
+          {card.learnSkill.targetGoal && (
+            <p className="text-[11px] text-stone-500 line-clamp-1">
+              目标：{card.learnSkill.targetGoal}
+            </p>
+          )}
         </div>
       </div>
 
@@ -211,21 +213,21 @@ export const SkillCardItem: React.FC<SkillCardItemProps> = ({
       <div className="p-3 bg-stone-50/60 border-t border-stone-100 flex items-center gap-2">
         <button
           onClick={() => onSelect(card)}
-          className="flex-1 py-2 px-3 rounded-xl text-xs font-semibold text-stone-600 bg-white hover:bg-stone-100 border border-stone-200/80 transition-colors text-center whitespace-nowrap"
+          className="flex-1 py-2 px-3 rounded-xl text-xs font-semibold text-stone-600 bg-white hover:bg-stone-100 border border-stone-200/80 transition-colors text-center whitespace-nowrap cursor-pointer"
         >
           查看详情
         </button>
 
         <button
           onClick={() => onInitiateSwap(card)}
-          className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1 whitespace-nowrap ${
+          className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer ${
             isDirectMatch
-              ? 'bg-[#D99636] text-white hover:bg-[#C2822A]'
-              : 'bg-[#9E5A44] text-white hover:bg-[#7F4330]'
+              ? 'bg-[#9E5A44] text-white hover:bg-[#7F4330]'
+              : 'bg-stone-900 text-white hover:bg-stone-800'
           }`}
         >
-          <Sparkles className="w-3 h-3" />
-          <span>{isDirectMatch ? '发起1v1互换' : '发起换学'}</span>
+          <ArrowRightLeft className="w-3.5 h-3.5" />
+          <span>{isDirectMatch ? '1对1 直换' : '发起请教'}</span>
         </button>
       </div>
     </div>

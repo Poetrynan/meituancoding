@@ -103,31 +103,26 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
-      {/* 顶部 Hero 欢迎与双轨机制解读 Banner */}
+      {/* 顶部 Hero 欢迎与介绍 */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#F6F0E7] via-[#FAF7F2] to-[#EFE7DE] border border-stone-200/90 p-6 sm:p-10 shadow-[0_4px_24px_rgba(44,40,37,0.04)]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* 左列：文案主张与核心行动点 */}
           <div className="lg:col-span-7 space-y-5">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 border border-stone-200 text-xs font-bold text-[#9E5A44] shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-[#9E5A44]" />
-              <span className="whitespace-nowrap">破除商业课昂贵壁垒 · 重拾邻里技艺真诚切磋</span>
-            </div>
-
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-handcraft text-stone-900 leading-[1.18] tracking-tight">
-              以我之所长，换你之所精。
+              以技换技，各取所长。
             </h1>
 
             <p className="text-sm sm:text-base text-stone-600 leading-relaxed max-w-xl">
-              无论是民谣吉他的第一个扫弦呼吸，还是 Python 的第一行自动化脚本，每门技艺都值得被真诚托付。平台采用<strong>「1v1 直连」</strong>与<strong>「时光银行」</strong>双轨制，配合 AI 助教拟定 3 阶段课纲与质押托管，让技能互换不再翻车。
+              找一位附近的伙伴，交换吉他、编程、摄影或你热爱的任何技艺。支持 1对1 互相请教，也可通过时光存折流转学时。
             </p>
 
             {/* 行动按钮组 */}
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <button
                 onClick={onOpenPublishModal}
-                className="px-6 py-2.5 rounded-xl bg-[#9E5A44] text-white text-xs sm:text-sm font-bold shadow-md hover:bg-[#7F4330] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2 whitespace-nowrap"
+                className="px-6 py-2.5 rounded-xl bg-[#9E5A44] text-white text-xs sm:text-sm font-bold shadow-sm hover:bg-[#7F4330] hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer"
               >
-                <span>发布我的技能卡</span>
+                <span>发布技能</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
@@ -139,55 +134,52 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
                     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
                 }}
-                className="px-5 py-2.5 rounded-xl bg-white border border-stone-300 text-stone-700 text-xs sm:text-sm font-bold shadow-sm hover:bg-stone-50 hover:border-[#9E5A44]/50 hover:text-[#9E5A44] transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer active:scale-95"
+                className="px-5 py-2.5 rounded-xl bg-white border border-stone-300 text-stone-700 text-xs sm:text-sm font-bold shadow-sm hover:bg-stone-50 hover:text-stone-900 transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer active:scale-95"
               >
                 <Compass className="w-4 h-4 text-[#9E5A44]" />
-                <span>浏览邻里技艺</span>
+                <span>浏览所有技能</span>
               </button>
             </div>
 
-            {/* 双轨机制卡片微展示 */}
+            {/* 两种互换方式极简展示 */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              <div className="flex items-center gap-3 bg-white/90 p-3 rounded-2xl border border-stone-200/80 shadow-sm">
-                <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
-                  <Sparkles className="w-4 h-4" />
+              <div className="flex items-center gap-3 bg-white/80 p-3 rounded-2xl border border-stone-200/80 shadow-sm">
+                <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center flex-shrink-0">
+                  <ArrowRightLeft className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs font-bold text-stone-800 whitespace-nowrap">天作之合 · 1v1 直换</p>
-                  <p className="text-[11px] text-stone-500 truncate">需求完美契合，免时光币门槛直接对调</p>
+                  <p className="text-xs font-bold text-stone-800 whitespace-nowrap">1对1 双向互换</p>
+                  <p className="text-[11px] text-stone-500 truncate">需求互相契合，直接对调切磋</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 bg-white/90 p-3 rounded-2xl border border-stone-200/80 shadow-sm">
+              <div className="flex items-center gap-3 bg-white/80 p-3 rounded-2xl border border-stone-200/80 shadow-sm">
                 <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0">
                   <Coins className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs font-bold text-stone-800 whitespace-nowrap">时光银行 · 网状流转</p>
-                  <p className="text-[11px] text-stone-500 truncate">教 A 积攒时光币，用币向 B 求学不卡壳</p>
+                  <p className="text-xs font-bold text-stone-800 whitespace-nowrap">时光存折</p>
+                  <p className="text-[11px] text-stone-500 truncate">教授积累学时，向其他人学习</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* 右列：智能契合实时演示卡片 */}
+          {/* 右列：社区互换动态真实卡片 */}
           <div className="lg:col-span-5">
-            <div className="bg-white rounded-2xl p-5 border border-stone-200 shadow-md space-y-4">
+            <div className="bg-white rounded-2xl p-5 border border-stone-200 shadow-sm space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-stone-100">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-                  <span className="text-xs font-bold text-stone-800 whitespace-nowrap">
-                    AI 契合与 3 阶段课纲演示
-                  </span>
-                </div>
-                <span className="text-[10px] font-bold text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-full whitespace-nowrap">
-                  匹配度 99%
+                <span className="text-xs font-bold text-stone-800">
+                  社区交换记录
+                </span>
+                <span className="text-[11px] text-stone-500 font-medium">
+                  杭州 · 线下切磋
                 </span>
               </div>
 
               {/* 双方对调示意 */}
-              <div className="flex items-center justify-between gap-3 bg-[#FAF7F2] p-3 rounded-xl border border-stone-200/60">
-                <div className="flex items-center gap-2 min-w-0">
+              <div className="flex items-center justify-between gap-3 bg-[#FAF7F2] p-3.5 rounded-xl border border-stone-200/60">
+                <div className="flex items-center gap-2.5 min-w-0">
                   <img
                     src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
                     alt="林晨曦"
@@ -195,8 +187,8 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
                     className="w-8 h-8 rounded-full object-cover border border-stone-200 flex-shrink-0"
                   />
                   <div className="min-w-0">
-                    <p className="text-xs font-bold text-stone-800 truncate whitespace-nowrap">林晨曦</p>
-                    <p className="text-[10px] text-[#9E5A44] font-medium truncate whitespace-nowrap flex items-center gap-1">
+                    <p className="text-xs font-bold text-stone-800 truncate">林晨曦</p>
+                    <p className="text-[11px] text-[#9E5A44] font-medium truncate flex items-center gap-1">
                       <Music className="w-3 h-3 flex-shrink-0" />
                       <span>木吉他指弹</span>
                     </p>
@@ -204,15 +196,15 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
                 </div>
 
                 <div className="w-7 h-7 rounded-full bg-white border border-stone-200 flex items-center justify-center text-[#9E5A44] shadow-sm flex-shrink-0">
-                  <ArrowRightLeft className="w-3.5 h-3.5 animate-pulse" />
+                  <ArrowRightLeft className="w-3.5 h-3.5" />
                 </div>
 
-                <div className="flex items-center gap-2 min-w-0 justify-end text-right">
+                <div className="flex items-center gap-2.5 min-w-0 justify-end text-right">
                   <div className="min-w-0">
-                    <p className="text-xs font-bold text-stone-800 truncate whitespace-nowrap">陆小川</p>
-                    <p className="text-[10px] text-[#3B5B43] font-medium truncate whitespace-nowrap flex items-center gap-1 justify-end">
+                    <p className="text-xs font-bold text-stone-800 truncate">陆小川</p>
+                    <p className="text-[11px] text-[#3B5B43] font-medium truncate flex items-center gap-1 justify-end">
                       <Code2 className="w-3 h-3 flex-shrink-0" />
-                      <span>Python 办公</span>
+                      <span>Python 脚本</span>
                     </p>
                   </div>
                   <img
@@ -224,62 +216,59 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
                 </div>
               </div>
 
-              {/* 3阶段课纲微展示 */}
-              <div className="space-y-1.5 text-xs">
-                <p className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">
-                  AI 助教定制教学课纲清单：
-                </p>
+              {/* 3阶段课纲真实进度 */}
+              <div className="space-y-2 text-xs">
                 <div className="p-2 rounded-lg bg-stone-50 border border-stone-100 flex items-center justify-between text-[11px]">
-                  <span className="text-stone-700">1. 基础触弦姿势 ⇄ 自动化环境配置</span>
-                  <span className="text-emerald-700 font-bold whitespace-nowrap flex items-center gap-1">
+                  <span className="text-stone-700">1. 基础触弦姿势 ⇄ 环境配置与基本语法</span>
+                  <span className="text-emerald-700 font-semibold whitespace-nowrap flex items-center gap-1">
                     <Check className="w-3 h-3 flex-shrink-0" />
-                    <span>已打卡</span>
+                    <span>已完成</span>
                   </span>
                 </div>
                 <div className="p-2 rounded-lg bg-stone-50 border border-stone-100 flex items-center justify-between text-[11px]">
-                  <span className="text-stone-700">2. 押尾泛音发音 ⇄ 网络数据抓取清洗</span>
-                  <span className="text-amber-700 font-bold whitespace-nowrap flex items-center gap-1">
+                  <span className="text-stone-700">2. 押尾泛音发音 ⇄ 数据采集与清洗</span>
+                  <span className="text-amber-700 font-semibold whitespace-nowrap flex items-center gap-1">
                     <Clock className="w-3 h-3 flex-shrink-0" />
                     <span>进行中</span>
                   </span>
                 </div>
                 <div className="p-2 rounded-lg bg-stone-50 border border-stone-100 flex items-center justify-between text-[11px]">
-                  <span className="text-stone-500">3. 独奏曲目录制 ⇄ 定时任务发布验收</span>
-                  <span className="text-stone-400 whitespace-nowrap">待结课</span>
+                  <span className="text-stone-400">3. 独奏曲目录制 ⇄ 定时任务发布</span>
+                  <span className="text-stone-400 whitespace-nowrap">待开始</span>
                 </div>
               </div>
 
               <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-500">
                 <span className="flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                  时光银行质押托管
+                  <ShieldCheck className="w-3.5 h-3.5 text-stone-500" />
+                  已托管课时学分
                 </span>
-                <span className="text-[#9E5A44] font-semibold whitespace-nowrap">零鸽单防翻车保障</span>
+                <span className="text-stone-600">3 课时互换契约</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 天作之合 高光聚光灯推荐区（如果有契合） */}
+      {/* 推荐互换伙伴（如果有双向契合） */}
       {directMatchCards.length > 0 && (
-        <div className="bg-gradient-to-r from-amber-500/10 via-amber-400/15 to-amber-500/10 border border-amber-300/80 rounded-3xl p-6 shadow-sm relative overflow-hidden">
+        <div className="bg-amber-50/60 border border-amber-200/80 rounded-3xl p-6 shadow-sm relative overflow-hidden">
           <div className="flex items-center justify-between gap-4 mb-5">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#D99636] text-white flex items-center justify-center font-bold shadow-sm flex-shrink-0">
-                <Sparkles className="w-4 h-4" />
+              <div className="w-9 h-9 rounded-xl bg-[#9E5A44] text-white flex items-center justify-center font-bold shadow-sm flex-shrink-0">
+                <ArrowRightLeft className="w-4 h-4" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <h2 className="text-base sm:text-lg font-bold font-handcraft text-stone-900 whitespace-nowrap">
-                    为你推荐的「天作之合」直换伙伴
+                    为你推荐的互换伙伴
                   </h2>
-                  <span className="text-[11px] bg-amber-600 text-white px-2.5 py-0.5 rounded-full font-bold whitespace-nowrap">
-                    契合度 99%
+                  <span className="text-[11px] bg-amber-100 text-amber-800 border border-amber-200 px-2 py-0.5 rounded-md font-medium whitespace-nowrap">
+                    双向匹配
                   </span>
                 </div>
                 <p className="text-xs text-stone-600 mt-0.5">
-                  对方能教授你想学的（Python自动化），且渴望向你学习（木吉他指弹），可直接 1v1 切磋！
+                  对方想学你的木吉他指弹，且能教授你想学的 Python 编程
                 </p>
               </div>
             </div>
@@ -356,20 +345,20 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
         {/* 分类标签横向列表 */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
           {[
-            { key: 'all', label: '全部技能', icon: Sparkles },
+            { key: 'all', label: '全部', icon: Sparkles },
             { key: 'music', label: '音乐乐器', icon: Music },
-            { key: 'tech', label: '数字编程', icon: Code2 },
-            { key: 'craft', label: '生活手作', icon: Hammer },
-            { key: 'photo', label: '胶片摄影', icon: Camera },
-            { key: 'language', label: '外语漫谈', icon: Languages },
-            { key: 'life', label: '咖啡烘焙', icon: Coffee },
+            { key: 'tech', label: '编程开发', icon: Code2 },
+            { key: 'craft', label: '手工制作', icon: Hammer },
+            { key: 'photo', label: '摄影录像', icon: Camera },
+            { key: 'language', label: '语言交流', icon: Languages },
+            { key: 'life', label: '生活日常', icon: Coffee },
           ].map((cat) => {
             const Icon = cat.icon;
             return (
               <button
                 key={cat.key}
                 onClick={() => setSelectedCategory(cat.key)}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border ${
                   selectedCategory === cat.key
                     ? 'bg-[#9E5A44] text-white border-[#9E5A44] shadow-sm'
                     : 'bg-white text-stone-600 border-stone-200 hover:border-stone-300 hover:text-stone-900'
@@ -386,16 +375,15 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
       {/* 技能卡片列表区 */}
       <div>
         <div className="flex items-center justify-between mb-5">
-          <p className="text-xs font-bold text-stone-500">
-            共找到 <span className="text-[#9E5A44] font-extrabold">{filteredCards.length}</span>{' '}
-            门邻里技艺
+          <p className="text-xs font-medium text-stone-500">
+            全部技能 (<span className="text-stone-900 font-semibold">{filteredCards.length}</span>)
           </p>
 
           <button
             onClick={onOpenPublishModal}
-            className="text-xs font-bold text-[#9E5A44] hover:underline underline-offset-4 flex items-center gap-1 whitespace-nowrap"
+            className="text-xs font-semibold text-[#9E5A44] hover:underline underline-offset-4 flex items-center gap-1 whitespace-nowrap cursor-pointer"
           >
-            我也有一技之长想分享？发布我的技能卡 →
+            发布技能卡 →
           </button>
         </div>
 

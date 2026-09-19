@@ -197,30 +197,25 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
         className="bg-white rounded-3xl max-w-3xl w-full max-h-[92vh] border-2 border-craft-border shadow-2xl relative flex flex-col overflow-hidden animate-in fade-in"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* 顶部契约卷轴风格标题 */}
-        <div className="p-6 pb-4 border-b border-craft-border flex items-center justify-between bg-gradient-to-r from-[#FAF6F0] via-[#F5EFEB] to-[#FAF6F0] flex-shrink-0">
+        {/* 顶部契约风格标题 */}
+        <div className="p-6 pb-4 border-b border-craft-border flex items-center justify-between bg-[#FAF6F0] flex-shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-craft-terracotta text-white flex items-center justify-center shadow-sm">
+            <div className="w-10 h-10 rounded-2xl bg-[#9E5A44] text-white flex items-center justify-center shadow-sm">
               <Scroll className="w-5 h-5" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-xl font-bold font-handcraft text-craft-ink">
-                  AI 助教定制：互换学习契约
-                </h2>
-                <span className="stamp-badge text-[11px] font-bold text-craft-terracotta bg-craft-terracotta-light border-craft-terracotta">
-                  CONTRACT DRAFT
-                </span>
-              </div>
-              <p className="text-xs text-craft-ink-light mt-0.5">
-                智能拆解 3 阶段课纲，让技能流转有目标、有产出、有保障
+              <h2 className="text-xl font-bold font-handcraft text-stone-900">
+                互换学习契约
+              </h2>
+              <p className="text-xs text-stone-500 mt-0.5">
+                明确三阶段学习目标与交付产出
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-black/5 text-craft-ink-light transition-colors cursor-pointer"
+            className="p-2 rounded-full hover:bg-black/5 text-stone-400 hover:text-stone-700 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -239,8 +234,8 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
                 className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
               />
               <div className="min-w-0">
-                <span className="text-[10px] font-bold text-craft-terracotta uppercase tracking-wider">
-                  导师 (Teacher)
+                <span className="text-[10px] font-bold text-[#9E5A44] uppercase tracking-wider">
+                  授课方
                 </span>
                 <p className="text-sm font-bold text-craft-ink truncate">{card.authorName}</p>
                 <p className="text-xs text-craft-ink-light truncate">{card.teachSkill.name}</p>
@@ -249,18 +244,12 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
 
             {/* 互换方式连接器 */}
             <div className="flex flex-col items-center justify-center px-4 py-1.5 rounded-xl bg-white border border-craft-border shadow-sm flex-shrink-0">
-              <ArrowRightLeft className="w-4 h-4 text-craft-terracotta mb-0.5" />
+              <ArrowRightLeft className="w-4 h-4 text-[#9E5A44] mb-0.5" />
               <span className="text-[11px] font-bold text-craft-ink flex items-center gap-1">
                 {isDirectSwap ? (
-                  <>
-                    <Sparkles className="w-3 h-3 text-amber-600 flex-shrink-0" />
-                    <span>1v1 浪漫直换</span>
-                  </>
+                  <span>1对1 双向互换</span>
                 ) : (
-                  <>
-                    <Coins className="w-3 h-3 text-amber-600 flex-shrink-0" />
-                    <span>时光银行质押</span>
-                  </>
+                  <span>时光存折流转</span>
                 )}
               </span>
             </div>
@@ -268,12 +257,12 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
             {/* 学员方（当前登录居民） */}
             <div className="flex items-center gap-3 flex-1 justify-end text-right">
               <div className="min-w-0">
-                <span className="text-[10px] font-bold text-craft-forest uppercase tracking-wider">
-                  学员 (Learner)
+                <span className="text-[10px] font-bold text-[#3B5B43] uppercase tracking-wider">
+                  学习方
                 </span>
                 <p className="text-sm font-bold text-craft-ink truncate">{currentUser.name}</p>
                 <p className="text-xs text-craft-ink-light truncate">
-                  {isDirectSwap ? `提供互学：${card.learnSkill.name}` : `质押：${stakedCredits} 时光币`}
+                  {isDirectSwap ? `提供互学：${card.learnSkill.name}` : `托管：${stakedCredits} 时光币`}
                 </p>
               </div>
               <img
@@ -285,21 +274,20 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
             </div>
           </div>
 
-          {/* AI 课纲阶段大纲列表 */}
+          {/* 阶段大纲列表 */}
           <div>
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <h3 className="font-handcraft text-base font-bold text-craft-ink flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-craft-amber" />
-                  3 阶段教学大纲与验收交付（AI 伴学生成）
+                  三阶段教学与交付目标
                 </h3>
                 {isGenerating && (
-                  <span className="text-xs text-craft-terracotta flex items-center gap-1">
-                    <Wand2 className="w-3 h-3 animate-spin" /> AI 生成中...
+                  <span className="text-xs text-[#9E5A44] flex items-center gap-1">
+                    <Wand2 className="w-3 h-3 animate-spin" /> 生成中...
                   </span>
                 )}
               </div>
-              <span className="text-xs text-craft-ink-muted">（支持点击文本微调）</span>
+              <span className="text-xs text-stone-400">（可直接编辑修改）</span>
             </div>
 
             <div className="space-y-3">
@@ -355,33 +343,33 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
               <ShieldCheck className="w-4 h-4 text-craft-amber" />
               <span>《巧遇·社区技能互换履约与质押共识》</span>
             </div>
-            <ul className="text-xs text-craft-ink-light space-y-1 pl-4 list-disc leading-relaxed">
+            <ul className="text-xs text-stone-600 space-y-1 pl-4 list-disc leading-relaxed">
               <li>
-                <strong>质押托管机制：</strong>
+                <strong>学时托管：</strong>
                 {isDirectSwap
-                  ? '本次为 1v1 浪漫直连互换，免收时光币质押，双方以技能课时对调切磋。'
-                  : `签署后系统从中枢质押池自动冻结 ${stakedCredits} 时光币；`}
+                  ? '本次为 1对1 直换，双方按约定课时切磋，免收时光币。'
+                  : `签署后系统自动托管 ${stakedCredits} 时光币；`}
               </li>
               <li>
-                <strong>阶梯打卡释放：</strong>
-                每次上课结束，双方在【协作看板】打卡确认后，系统自动释放该阶段学时；
+                <strong>阶段打卡：</strong>
+                每次授课结束后，双方在协作看板打卡确认，即可完成该阶段课时流转；
               </li>
               <li>
-                <strong>违约申诉保障：</strong>
-                若一方无故失联、旷课或教学严重不符课纲，另一方可随时发起“纠纷仲裁”，平台管理员将根据打卡记录与课纲公正裁决并退回质押金。
+                <strong>履约保障：</strong>
+                若一方失联或严重不符课纲，可随时发起调解申请，由管理员公正核实并处理。
               </li>
             </ul>
           </div>
         </div>
 
         {/* 底部确认签署栏：固定在卡片底部 */}
-        <div className="p-4 bg-craft-paper border-t border-craft-border flex items-center justify-between gap-4 flex-shrink-0">
+        <div className="p-4 bg-stone-50 border-t border-stone-200 flex items-center justify-between gap-4 flex-shrink-0">
           <div className="flex items-center gap-2">
-            <Coins className="w-5 h-5 text-craft-amber" />
+            <Coins className="w-5 h-5 text-amber-600" />
             <div>
-              <p className="text-xs text-craft-ink-light">本次质押锁定</p>
-              <p className="text-sm font-bold text-craft-ink">
-                {isDirectSwap ? '0 时光币 (1v1互换)' : `${stakedCredits} 时光币`}
+              <p className="text-xs text-stone-500">托管学时</p>
+              <p className="text-sm font-bold text-stone-900">
+                {isDirectSwap ? '0 时光币 (1对1直换)' : `${stakedCredits} 时光币`}
               </p>
             </div>
           </div>
@@ -389,16 +377,15 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
           <div className="flex items-center gap-3">
             <button
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl text-xs font-semibold text-craft-ink-light hover:bg-black/5 transition-colors cursor-pointer"
+              className="px-4 py-2.5 rounded-xl text-xs font-semibold text-stone-600 hover:bg-stone-200/60 transition-colors cursor-pointer"
             >
               暂不签署
             </button>
             <button
               onClick={handleConfirmContract}
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-craft-terracotta to-craft-amber text-white text-xs font-bold shadow-md hover:scale-105 transition-all flex items-center gap-1.5 cursor-pointer"
+              className="px-6 py-2.5 rounded-xl bg-[#9E5A44] hover:bg-[#7F4330] text-white text-xs font-bold shadow-sm transition-all flex items-center gap-1.5 cursor-pointer"
             >
-              <Sparkles className="w-4 h-4" />
-              <span>确认课纲并签署契约</span>
+              <span>签署互换契约</span>
             </button>
           </div>
         </div>
