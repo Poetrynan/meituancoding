@@ -15,14 +15,19 @@ import {
   Coins,
   Clock,
   HeartHandshake,
+  Globe,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 interface UserLoginPageProps {
   onNavigateHome: () => void;
+  onNavigateLanding?: () => void;
 }
 
-export const UserLoginPage: React.FC<UserLoginPageProps> = ({ onNavigateHome }) => {
+export const UserLoginPage: React.FC<UserLoginPageProps> = ({
+  onNavigateHome,
+  onNavigateLanding,
+}) => {
   const { login, register, users } = useApp();
 
   // 检查 URL 中是否带 mode=register 参数
@@ -120,13 +125,29 @@ export const UserLoginPage: React.FC<UserLoginPageProps> = ({ onNavigateHome }) 
           </div>
         </div>
 
-        <button
-          onClick={onNavigateHome}
-          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-stone-700 hover:text-stone-950 bg-white hover:bg-stone-50 border border-stone-200 shadow-sm transition-all cursor-pointer"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>返回集市首页</span>
-        </button>
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => {
+              if (onNavigateLanding) {
+                onNavigateLanding();
+              } else {
+                window.location.hash = '#/landing';
+              }
+            }}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-[#9E5A44] hover:text-[#854B38] bg-[#9E5A44]/10 hover:bg-[#9E5A44]/15 border border-[#9E5A44]/25 shadow-2xs transition-all cursor-pointer"
+          >
+            <Globe className="w-3.5 h-3.5" />
+            <span>查看产品官网</span>
+          </button>
+
+          <button
+            onClick={onNavigateHome}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-stone-700 hover:text-stone-950 bg-white hover:bg-stone-50 border border-stone-200 shadow-sm transition-all cursor-pointer"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>返回集市首页</span>
+          </button>
+        </div>
       </header>
 
       {/* 主体双列内容区域：严格定轴与顶部对齐，彻底消除 Tab 切换时的上下偏移 */}
@@ -310,6 +331,24 @@ export const UserLoginPage: React.FC<UserLoginPageProps> = ({ onNavigateHome }) 
                         ))}
                       </div>
                     </div>
+
+                    {/* 查看官网入口 */}
+                    <div className="text-center pt-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (onNavigateLanding) {
+                            onNavigateLanding();
+                          } else {
+                            window.location.hash = '#/landing';
+                          }
+                        }}
+                        className="text-xs text-stone-500 hover:text-[#9E5A44] font-medium inline-flex items-center gap-1 cursor-pointer transition-colors"
+                      >
+                        <Globe className="w-3.5 h-3.5 text-[#9E5A44]" />
+                        <span>初次了解巧遇？点此「查看产品官网」 →</span>
+                      </button>
+                    </div>
                   </form>
                 ) : (
                   <form onSubmit={handleRegister} className="space-y-3.5">
@@ -413,6 +452,24 @@ export const UserLoginPage: React.FC<UserLoginPageProps> = ({ onNavigateHome }) 
                       <span>入驻并领取 5 时光币</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
+
+                    {/* 查看官网入口 */}
+                    <div className="text-center pt-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (onNavigateLanding) {
+                            onNavigateLanding();
+                          } else {
+                            window.location.hash = '#/landing';
+                          }
+                        }}
+                        className="text-xs text-stone-500 hover:text-[#9E5A44] font-medium inline-flex items-center gap-1 cursor-pointer transition-colors"
+                      >
+                        <Globe className="w-3.5 h-3.5 text-[#9E5A44]" />
+                        <span>想深入了解 4 大保障机制？「查看产品官网」 →</span>
+                      </button>
+                    </div>
                   </form>
                 )}
               </div>

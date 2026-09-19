@@ -8,6 +8,7 @@ import {
   Coins,
   LogOut,
   User,
+  Globe,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { getAvatarFallbackSvg, handleImageError } from '../../utils/imageFallback';
@@ -116,6 +117,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPublishModal }) => {
               >
                 <Coins className="w-3.5 h-3.5 flex-shrink-0" />
                 <span className="whitespace-nowrap">时光存折</span>
+              </button>
+
+              <button
+                onClick={() => { window.location.hash = '#/landing'; }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap text-stone-600 hover:text-stone-900 hover:bg-white/60 transition-all cursor-pointer"
+              >
+                <Globe className="w-3.5 h-3.5 flex-shrink-0 text-[#9E5A44]" />
+                <span className="whitespace-nowrap">产品官网</span>
               </button>
             </nav>
           </div>

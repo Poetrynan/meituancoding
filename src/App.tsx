@@ -12,6 +12,7 @@ import { AdminLogin } from './components/admin/AdminLogin';
 import { AdminShell } from './components/admin/AdminShell';
 import { UserAuthModal } from './components/common/UserAuthModal';
 import { UserLoginPage } from './components/common/UserLoginPage';
+import { LandingPage } from './components/common/LandingPage';
 import { SkillCard } from './types';
 import { Heart, Sparkles, Compass } from 'lucide-react';
 
@@ -92,8 +93,15 @@ const MainUserPortal: React.FC = () => {
             <span className="text-xs text-stone-500">技能互换社区</span>
           </div>
 
-          <div className="pt-2 text-xs text-stone-400 flex items-center justify-center gap-2">
+          <div className="pt-2 text-xs text-stone-400 flex items-center justify-center gap-3">
             <span>SkillCraft © 2026</span>
+            <span>·</span>
+            <button
+              onClick={() => { window.location.hash = '#/landing'; }}
+              className="text-[#9E5A44] hover:underline font-bold cursor-pointer"
+            >
+              产品官网介绍
+            </button>
             <span>·</span>
             <span>以技换技，各取所长</span>
           </div>
@@ -117,7 +125,7 @@ const AdminApp: React.FC<{ onNavigateHome: () => void }> = ({ onNavigateHome }) 
 };
 
 /**
- * 全局应用根路由网关 (物理隔离：前台 /logging 登录页 / 后台)
+ * 全局应用根路由网关 (物理隔离：前台 / 官网 /logging 登录页 / 后台)
  */
 export default function App() {
   const checkIsAdmin = (): boolean => {
@@ -139,13 +147,28 @@ export default function App() {
     );
   };
 
+  const checkIsLanding = (): boolean => {
+    const hash = window.location.hash.toLowerCase();
+    const pathname = window.location.pathname.toLowerCase();
+    return (
+      hash.startsWith('#/landing') ||
+      hash.startsWith('#/landingpage') ||
+      hash === '#landing' ||
+      hash === '#landingpage' ||
+      pathname.startsWith('/landing') ||
+      pathname.startsWith('/landingpage')
+    );
+  };
+
   const [isAdminRoute, setIsAdminRoute] = useState<boolean>(checkIsAdmin);
   const [isLoginRoute, setIsLoginRoute] = useState<boolean>(checkIsLogin);
+  const [isLandingRoute, setIsLandingRoute] = useState<boolean>(checkIsLanding);
 
   useEffect(() => {
     const handleRoute = () => {
       setIsAdminRoute(checkIsAdmin());
       setIsLoginRoute(checkIsLogin());
+      setIsLandingRoute(checkIsLanding());
     };
 
     window.addEventListener('hashchange', handleRoute);
@@ -157,15 +180,24 @@ export default function App() {
   }, []);
 
   const navigateToHome = () => {
-    if (window.location.pathname.includes('log')) {
+    if (window.location.pathname.includes('log') || window.location.pathname.includes('land')) {
       window.history.pushState(null, '', '/');
     }
     window.location.hash = '';
     setIsAdminRoute(false);
     setIsLoginRoute(false);
+    setIsLandingRoute(false);
   };
 
-  // 管理后台独立域
+  const navigateToLanding = () => {
+    window.location.hash = '#/landing';
+  };
+
+  const navigateToLogin = (mode: 'login' | 'register' = 'login') => {
+    window.location.hash = mode === 'register' ? '#/logging?mode=register' : '#/logging';
+  };
+
+  // 1. 管理后台独立域 (/admin)
   if (isAdminRoute) {
     return (
       <AppProvider>
@@ -176,16 +208,31 @@ export default function App() {
     );
   }
 
-  // 独立用户登录/注册页 (/logging 或 /login)
-  if (isLoginRoute) {
+  // 2. 独立产品官网落地页 (/landing)
+  if (isLandingRoute) {
     return (
       <AppProvider>
-        <UserLoginPage onNavigateHome={navigateToHome} />
+        <LandingPage
+          onNavigateMarketplace={navigateToHome}
+          onNavigateLogin={navigateToLogin}
+        />
       </AppProvider>
     );
   }
 
-  // 普通用户端独立域
+  // 3. 独立用户登录/注册页 (/logging 或 /login)
+  if (isLoginRoute) {
+    return (
+      <AppProvider>
+        <UserLoginPage
+          onNavigateHome={navigateToHome}
+          onNavigateLanding={navigateToLanding}
+        />
+      </AppProvider>
+    );
+  }
+
+  // 4. 普通用户社区集市主视图
   return (
     <AppProvider>
       <MainUserPortal />
