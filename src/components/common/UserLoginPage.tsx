@@ -18,6 +18,7 @@ import {
   Globe,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { BrandLogo } from './BrandLogo';
 
 interface UserLoginPageProps {
   onNavigateHome: () => void;
@@ -112,9 +113,7 @@ export const UserLoginPage: React.FC<UserLoginPageProps> = ({
           onClick={onNavigateHome}
           className="flex items-center gap-2.5 cursor-pointer group"
         >
-          <div className="w-9 h-9 rounded-xl bg-[#9E5A44] text-white flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
-            <Sparkles className="w-4 h-4" />
-          </div>
+          <BrandLogo size={36} className="rounded-xl shadow-xs group-hover:scale-105 transition-transform flex-shrink-0" />
           <div>
             <span className="font-handcraft text-lg font-bold text-stone-900 tracking-wide">
               巧遇 · 匠心

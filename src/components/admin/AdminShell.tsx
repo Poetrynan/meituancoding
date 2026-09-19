@@ -21,6 +21,7 @@ import { SkillAuditTable } from './SkillAuditTable';
 import { DisputeArbitrationCourt } from './DisputeArbitrationCourt';
 import { TokenomicsControl } from './TokenomicsControl';
 import { AdminRole } from '../../types';
+import { BrandLogo } from '../common/BrandLogo';
 
 type AdminTab = 'dashboard' | 'audit' | 'disputes' | 'tokenomics' | 'logs';
 
@@ -88,9 +89,7 @@ export const AdminShell: React.FC<AdminShellProps> = ({ onNavigateHome }) => {
       {/* 1. 顶部全局控制台顶栏 */}
       <header className="h-16 bg-white border-b border-zinc-200/80 px-6 flex items-center justify-between flex-shrink-0 z-20 sticky top-0">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-800 shadow-sm">
-            <Shield className="w-4 h-4" />
-          </div>
+          <BrandLogo size={32} className="rounded-lg shadow-2xs flex-shrink-0" />
           <div>
             <div className="flex items-center gap-2">
               <span className="font-bold text-sm text-zinc-900 tracking-tight">

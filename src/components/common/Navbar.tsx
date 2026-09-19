@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { getAvatarFallbackSvg, handleImageError } from '../../utils/imageFallback';
+import { BrandLogo } from './BrandLogo';
 
 interface NavbarProps {
   onOpenPublishModal: () => void;
@@ -55,9 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPublishModal }) => {
               onClick={() => setActiveTab('marketplace')}
               className="flex items-center gap-2.5 cursor-pointer group flex-shrink-0"
             >
-              <div className="w-9 h-9 rounded-xl bg-[#9E5A44] text-white flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
-                <Sparkles className="w-4 h-4" />
-              </div>
+              <BrandLogo size={38} className="rounded-xl shadow-xs group-hover:scale-105 transition-transform flex-shrink-0" />
               <div className="flex items-center gap-2 flex-shrink-0">
                 <span className="font-handcraft text-lg sm:text-xl font-bold text-stone-900 tracking-wide whitespace-nowrap">
                   巧遇 · 匠心
