@@ -61,15 +61,15 @@ export const UserAuthModal: React.FC = () => {
 
   return ReactDOM.createPortal(
     <div
-      className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm animate-in fade-in"
+      className="fixed inset-0 z-[1000] flex items-start justify-center pt-12 sm:pt-20 p-4 bg-stone-900/60 backdrop-blur-sm animate-in fade-in overflow-y-auto [scrollbar-gutter:stable]"
       onClick={closeAuthModal}
     >
       <div
-        className="bg-[#FDFBF7] rounded-3xl max-w-md w-full border border-stone-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
+        className="bg-[#FDFBF7] rounded-3xl max-w-md w-full border border-stone-200 shadow-2xl overflow-hidden min-h-[580px] flex flex-col justify-between animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 顶部标题与关闭按键 */}
-        <div className="p-6 pb-4 border-b border-stone-200/80 flex items-center justify-between">
+        <div className="p-6 pb-4 border-b border-stone-200/80 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-[#9E5A44] text-white flex items-center justify-center shadow-sm">
               <Sparkles className="w-4 h-4" />
@@ -92,8 +92,8 @@ export const UserAuthModal: React.FC = () => {
           </button>
         </div>
 
-        {/* Tab 切换 */}
-        <div className="flex border-b border-stone-200/80 px-6 pt-3 gap-6 bg-stone-50/50">
+        {/* Tab 切换 (固定高度与边框，杜绝切换时的 1px 抖动) */}
+        <div className="flex border-b border-stone-200/80 px-6 pt-3 gap-6 bg-stone-50/50 flex-shrink-0">
           <button
             type="button"
             onClick={() => openAuthModal('login')}
@@ -122,7 +122,7 @@ export const UserAuthModal: React.FC = () => {
         </div>
 
         {/* 表单内容 */}
-        <div className="p-6">
+        <div className="p-6 flex-1 flex flex-col justify-between">
           {authMode === 'login' ? (
             <form onSubmit={handleLoginSubmit} className="space-y-4">
               <div>

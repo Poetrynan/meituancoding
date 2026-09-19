@@ -96,7 +96,7 @@ export const UserLoginPage: React.FC<UserLoginPageProps> = ({ onNavigateHome }) 
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-stone-900 flex flex-col justify-between font-sans relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#FDFBF7] text-stone-900 flex flex-col justify-between font-sans relative overflow-x-hidden [scrollbar-gutter:stable]">
       {/* 柔和环境光渐变 */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#9E5A44]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-[400px] h-[400px] bg-[#E9C380]/15 rounded-full blur-3xl pointer-events-none" />
@@ -129,9 +129,9 @@ export const UserLoginPage: React.FC<UserLoginPageProps> = ({ onNavigateHome }) 
         </button>
       </header>
 
-      {/* 主体双列内容区域 */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 w-full items-center">
+      {/* 主体双列内容区域：严格定轴与顶部对齐，彻底消除 Tab 切换时的上下偏移 */}
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 w-full items-start">
           {/* 左侧：品牌愿景与机制价值 */}
           <div className="lg:col-span-6 space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#9E5A44]/10 border border-[#9E5A44]/20 text-[#9E5A44] text-xs font-bold font-handcraft">
@@ -200,18 +200,18 @@ export const UserLoginPage: React.FC<UserLoginPageProps> = ({ onNavigateHome }) 
             </div>
           </div>
 
-          {/* 右侧：登录 / 注册操作卡片 */}
-          <div className="lg:col-span-6 flex justify-center">
-            <div className="w-full max-w-md bg-white border border-stone-200 rounded-3xl shadow-xl overflow-hidden">
-              {/* Tab 切换头部 */}
-              <div className="flex border-b border-stone-200 bg-stone-50/50 p-2 gap-2">
+          {/* 右侧：登录 / 注册操作卡片 (设定最小高度与自身定顶，杜绝切换时的垂直跳动) */}
+          <div className="lg:col-span-6 flex justify-center self-start">
+            <div className="w-full max-w-md bg-white border border-stone-200 rounded-3xl shadow-xl overflow-hidden min-h-[585px] flex flex-col">
+              {/* Tab 切换头部 (等高固定内边距与边框，杜绝 1px 抖动) */}
+              <div className="flex border-b border-stone-200 bg-stone-50/50 p-2 gap-2 flex-shrink-0">
                 <button
                   type="button"
                   onClick={() => setMode('login')}
-                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer text-center ${
+                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer text-center border ${
                     mode === 'login'
-                      ? 'bg-white text-stone-900 shadow-sm border border-stone-200/80 font-bold'
-                      : 'text-stone-500 hover:text-stone-800'
+                      ? 'bg-white text-stone-900 shadow-sm border-stone-200/80'
+                      : 'border-transparent text-stone-500 hover:text-stone-800'
                   }`}
                 >
                   居民账号登录
@@ -219,10 +219,10 @@ export const UserLoginPage: React.FC<UserLoginPageProps> = ({ onNavigateHome }) 
                 <button
                   type="button"
                   onClick={() => setMode('register')}
-                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 border ${
                     mode === 'register'
-                      ? 'bg-white text-stone-900 shadow-sm border border-stone-200/80 font-bold'
-                      : 'text-stone-500 hover:text-stone-800'
+                      ? 'bg-white text-stone-900 shadow-sm border-stone-200/80'
+                      : 'border-transparent text-stone-500 hover:text-stone-800'
                   }`}
                 >
                   <span>新居民注册</span>
@@ -233,7 +233,7 @@ export const UserLoginPage: React.FC<UserLoginPageProps> = ({ onNavigateHome }) 
               </div>
 
               {/* 表单主体 */}
-              <div className="p-6 sm:p-7">
+              <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
                 {mode === 'login' ? (
                   <form onSubmit={handleLogin} className="space-y-4">
                     <div>
