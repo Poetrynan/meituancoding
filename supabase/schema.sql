@@ -1,12 +1,19 @@
 -- ==============================================================================
 -- SkillCraft 技能互换平台 - Supabase 生产级云数据库 Schema
 -- 架构标准：对标 Malaysia_Ez_rent 双表隔离与金融级复式记账规范
--- 适用环境：Supabase (PostgreSQL 16+) / 兼容标准 PostgreSQL
+-- 适用环境：Supabase (PostgreSQL 15+/16+) / 兼容全版本 PostgreSQL
 -- ==============================================================================
 
--- 1. 基础扩展
+-- 1. 基础扩展 (UUID)
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE EXTENSION IF NOT EXISTS "pgvector";
+
+-- 尝试启用 vector 扩展（Supabase 中官方插件名为 vector，而非 pgvector）
+DO $$
+BEGIN
+    CREATE EXTENSION IF NOT EXISTS "vector";
+EXCEPTION WHEN OTHERS THEN
+    RAISE NOTICE 'vector 插件未就绪，技能嵌入将使用原生 JSONB/数组存储';
+END $$;
 
 -- ==============================================================================
 -- 2. 账号体系彻底物理隔离（普通用户 vs 管理员）
@@ -37,7 +44,7 @@ CREATE TABLE IF NOT EXISTS public.users (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 2.2 平台管理人员表（独立运营团队，与普通用户表物理隔离）
+-- 2.2 平台管理人员表（独立运营团队，物理隔离）
 CREATE TABLE IF NOT EXISTS public.admin_users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     auth_id UUID UNIQUE,                                            -- 关联 Supabase auth.users.id
@@ -98,9 +105,9 @@ CREATE TABLE IF NOT EXISTS public.skills (
     audited_by UUID REFERENCES public.admin_users(id),
     audited_at TIMESTAMP WITH TIME ZONE,
 
-    -- AI 向量嵌入字段（支持 1536 维语义倒排匹配）
-    teach_embedding vector(1536),
-    learn_embedding vector(1536),
+    -- AI 向量语义嵌入（采用通用 JSONB 格式，无须强依赖外部 C 扩展，直接存储 1536 维浮点数组）
+    teach_embedding JSONB NOT NULL DEFAULT '[]'::jsonb,
+    learn_embedding JSONB NOT NULL DEFAULT '[]'::jsonb,
 
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -221,8 +228,8 @@ CREATE TABLE IF NOT EXISTS public.dispute_cases (
 CREATE TABLE IF NOT EXISTS public.audit_logs (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     admin_id UUID NOT NULL REFERENCES public.admin_users(id) ON DELETE RESTRICT,
-    action VARCHAR(64) NOT NULL,                                  -- e.g. 'audit_skill', 'arbitrate_dispute', 'update_config'
-    target_type VARCHAR(32) NOT NULL,                             -- e.g. 'skill', 'contract', 'dispute', 'system'
+    action VARCHAR(64) NOT NULL,
+    target_type VARCHAR(32) NOT NULL,
     target_id VARCHAR(64) NOT NULL,
     detail_payload JSONB DEFAULT '{}'::jsonb,
     ip_address VARCHAR(45),
@@ -251,47 +258,11 @@ ALTER TABLE public.time_transactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.dispute_cases ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.platform_configs ENABLE ROW LEVEL SECURITY;
 
--- 7.1 普通用户只能读写自己的 profile，公开只读他人基本信息
-CREATE POLICY "Public profiles are viewable by everyone" 
-ON public.users FOR SELECT USING (status = 'active');
-
-CREATE POLICY "Users can update own profile" 
-ON public.users FOR UPDATE USING (auth.uid() = auth_id);
-
--- 7.2 技能卡公开只读审核通过项，作者可管理自身技能
-CREATE POLICY "Active skills are viewable by everyone" 
-ON public.skills FOR SELECT USING (status = 'active');
-
-CREATE POLICY "Users can insert own skills" 
-ON public.skills FOR INSERT WITH CHECK (auth.uid() IN (SELECT auth_id FROM public.users WHERE id = user_id));
-
-CREATE POLICY "Users can update own skills" 
-ON public.skills FOR UPDATE USING (auth.uid() IN (SELECT auth_id FROM public.users WHERE id = user_id));
-
--- 7.3 管理员拥有全量管理权限（基于 admin_users 校验）
-CREATE POLICY "Admins full access to skills" 
-ON public.skills FOR ALL USING (
+CREATE POLICY "Public read active skills" ON public.skills FOR SELECT USING (status = 'active');
+CREATE POLICY "Public read users" ON public.users FOR SELECT USING (status = 'active');
+CREATE POLICY "Admins full skills" ON public.skills FOR ALL USING (
     EXISTS (SELECT 1 FROM public.admin_users WHERE auth_id = auth.uid() AND is_active = TRUE)
 );
-
-CREATE POLICY "Admins full access to disputes" 
-ON public.dispute_cases FOR ALL USING (
+CREATE POLICY "Admins full disputes" ON public.dispute_cases FOR ALL USING (
     EXISTS (SELECT 1 FROM public.admin_users WHERE auth_id = auth.uid() AND is_active = TRUE)
 );
-
--- ==============================================================================
--- 8. 自动更新时间戳触发器
--- ==============================================================================
-
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = NOW();
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER update_users_modtime BEFORE UPDATE ON public.users FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
-CREATE TRIGGER update_admin_users_modtime BEFORE UPDATE ON public.admin_users FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
-CREATE TRIGGER update_skills_modtime BEFORE UPDATE ON public.skills FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
-CREATE TRIGGER update_contracts_modtime BEFORE UPDATE ON public.swap_contracts FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
