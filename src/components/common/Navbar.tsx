@@ -13,6 +13,7 @@ import {
   Check,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { getAvatarFallbackSvg, handleImageError } from '../../utils/imageFallback';
 
 interface NavbarProps {
   onOpenPublishModal: () => void;
@@ -182,6 +183,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPublishModal }) => {
                   <img
                     src={currentUser.avatar}
                     alt={currentUser.name}
+                    onError={(e) => handleImageError(e, getAvatarFallbackSvg(currentUser.name))}
                     className="w-6 h-6 rounded-full object-cover border border-stone-200 flex-shrink-0"
                   />
                   <span className="text-xs font-bold text-stone-800 whitespace-nowrap hidden sm:inline-block">
@@ -217,6 +219,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPublishModal }) => {
                             <img
                               src={u.avatar}
                               alt={u.name}
+                              onError={(e) => handleImageError(e, getAvatarFallbackSvg(u.name))}
                               className="w-7 h-7 rounded-full object-cover border border-stone-200 flex-shrink-0"
                             />
                             <div className="flex-1 min-w-0">

@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { SkillCategory, SkillLevel, TeachingMode } from '../../types';
+import { getCategoryFallbackSvg, handleImageError } from '../../utils/imageFallback';
 
 interface PublishSkillModalProps {
   isOpen: boolean;
@@ -44,7 +45,7 @@ const PRESET_PORTFOLIOS = [
   },
   {
     label: '手绘插画',
-    url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&auto=format&fit=crop&q=80',
   },
 ];
 
@@ -365,7 +366,12 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
                           : 'border-craft-border opacity-70 hover:opacity-100'
                       }`}
                     >
-                      <img src={item.url} alt={item.label} className="w-full h-full object-cover" />
+                      <img
+                        src={item.url}
+                        alt={item.label}
+                        onError={(e) => handleImageError(e, getCategoryFallbackSvg('craft', item.label))}
+                        className="w-full h-full object-cover"
+                      />
                       <span className="absolute bottom-0 inset-x-0 bg-black/60 text-white text-[10px] text-center py-0.5">
                         {item.label}
                       </span>

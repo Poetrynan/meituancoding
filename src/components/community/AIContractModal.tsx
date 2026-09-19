@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { SkillCard, ContractMilestone } from '../../types';
+import { getAvatarFallbackSvg, handleImageError } from '../../utils/imageFallback';
 
 interface AIContractModalProps {
   card: SkillCard | null;
@@ -218,6 +219,7 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
               <img
                 src={card.authorAvatar}
                 alt={card.authorName}
+                onError={(e) => handleImageError(e, getAvatarFallbackSvg(card.authorName))}
                 className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
               />
               <div className="min-w-0">
@@ -261,6 +263,7 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
               <img
                 src={currentUser.avatar}
                 alt={currentUser.name}
+                onError={(e) => handleImageError(e, getAvatarFallbackSvg(currentUser.name))}
                 className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
               />
             </div>

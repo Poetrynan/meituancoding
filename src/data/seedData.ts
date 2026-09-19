@@ -360,7 +360,7 @@ export const INITIAL_SKILLS: SkillCard[] = [
       description: '教你掌握iPad插画的核心图层逻辑！不用担心画不好人体，带你从温暖小面包、萌宠猫咪画起，掌握噪点颗粒感上色秘诀。',
       highlightTags: ['赠送独家调配笔刷', '小白也能画出的画作', 'iPad平板实操'],
       portfolioImages: [
-        'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600&auto=format&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&auto=format&fit=crop&q=80',
         'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80',
       ],
       teachingMode: 'online',

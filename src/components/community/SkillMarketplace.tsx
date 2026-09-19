@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { SkillCard } from '../../types';
+import { getAvatarFallbackSvg, handleImageError } from '../../utils/imageFallback';
 import { SkillCardItem } from './SkillCardItem';
 import { SkillDetailModal } from './SkillDetailModal';
 
@@ -130,13 +131,19 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
                 <ArrowRight className="w-4 h-4" />
               </button>
 
-              <a
-                href="#skill-list"
-                className="px-5 py-2.5 rounded-xl bg-white border border-stone-300 text-stone-700 text-xs sm:text-sm font-bold shadow-sm hover:bg-stone-50 transition-all flex items-center gap-1.5 whitespace-nowrap"
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById('skill-list');
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+                className="px-5 py-2.5 rounded-xl bg-white border border-stone-300 text-stone-700 text-xs sm:text-sm font-bold shadow-sm hover:bg-stone-50 hover:border-[#9E5A44]/50 hover:text-[#9E5A44] transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer active:scale-95"
               >
                 <Compass className="w-4 h-4 text-[#9E5A44]" />
                 <span>浏览邻里技艺</span>
-              </a>
+              </button>
             </div>
 
             {/* 双轨机制卡片微展示 */}
@@ -184,6 +191,7 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
                   <img
                     src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
                     alt="林晨曦"
+                    onError={(e) => handleImageError(e, getAvatarFallbackSvg('林晨曦'))}
                     className="w-8 h-8 rounded-full object-cover border border-stone-200 flex-shrink-0"
                   />
                   <div className="min-w-0">
@@ -210,6 +218,7 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
                   <img
                     src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80"
                     alt="陆小川"
+                    onError={(e) => handleImageError(e, getAvatarFallbackSvg('陆小川'))}
                     className="w-8 h-8 rounded-full object-cover border border-stone-200 flex-shrink-0"
                   />
                 </div>

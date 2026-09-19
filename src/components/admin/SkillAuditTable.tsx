@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { SkillCard } from '../../types';
+import { getAvatarFallbackSvg, handleImageError } from '../../utils/imageFallback';
 
 export const SkillAuditTable: React.FC = () => {
   const { skillCards, auditSkillCard } = useApp();
@@ -100,6 +101,7 @@ export const SkillAuditTable: React.FC = () => {
                           <img
                             src={card.authorAvatar}
                             alt={card.authorName}
+                            onError={(e) => handleImageError(e, getAvatarFallbackSvg(card.authorName))}
                             className="w-8 h-8 rounded-full object-cover border border-craft-border"
                           />
                           <div>

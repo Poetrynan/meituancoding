@@ -16,6 +16,11 @@ import {
   Coffee,
 } from 'lucide-react';
 import { SkillCard } from '../../types';
+import {
+  getCategoryFallbackSvg,
+  getAvatarFallbackSvg,
+  handleImageError,
+} from '../../utils/imageFallback';
 
 interface SkillCardItemProps {
   card: SkillCard;
@@ -109,6 +114,7 @@ export const SkillCardItem: React.FC<SkillCardItemProps> = ({
             <img
               src={card.authorAvatar}
               alt={card.authorName}
+              onError={(e) => handleImageError(e, getAvatarFallbackSvg(card.authorName))}
               className="w-8 h-8 rounded-full object-cover border border-stone-200 flex-shrink-0"
             />
             <div className="min-w-0">
@@ -136,6 +142,12 @@ export const SkillCardItem: React.FC<SkillCardItemProps> = ({
           <img
             src={thumbnail}
             alt={card.teachSkill.name}
+            onError={(e) =>
+              handleImageError(
+                e,
+                getCategoryFallbackSvg(card.teachSkill.category, card.teachSkill.name)
+              )
+            }
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
 

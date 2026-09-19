@@ -12,6 +12,11 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { SkillCard, UserProfile } from '../../types';
+import {
+  getCategoryFallbackSvg,
+  getAvatarFallbackSvg,
+  handleImageError,
+} from '../../utils/imageFallback';
 
 interface SkillDetailModalProps {
   card: SkillCard | null;
@@ -52,6 +57,12 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({
               'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=80'
             }
             alt={card.teachSkill.name}
+            onError={(e) =>
+              handleImageError(
+                e,
+                getCategoryFallbackSvg(card.teachSkill.category, card.teachSkill.name)
+              )
+            }
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -95,6 +106,7 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({
               <img
                 src={card.authorAvatar}
                 alt={card.authorName}
+                onError={(e) => handleImageError(e, getAvatarFallbackSvg(card.authorName))}
                 className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
               />
               <div>
@@ -160,7 +172,20 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({
                     key={i}
                     className="aspect-square rounded-xl overflow-hidden border-2 border-craft-border shadow-sm hover:scale-105 transition-transform"
                   >
-                    <img src={img} alt="作品展示" className="w-full h-full object-cover" />
+                    <img
+                      src={img}
+                      alt="作品展示"
+                      onError={(e) =>
+                        handleImageError(
+                          e,
+                          getCategoryFallbackSvg(
+                            card.teachSkill.category,
+                            `${card.teachSkill.name} - 作品${i + 1}`
+                          )
+                        )
+                      }
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 ))}
               </div>

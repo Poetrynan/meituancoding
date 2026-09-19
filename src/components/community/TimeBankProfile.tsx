@@ -20,6 +20,7 @@ import {
   GraduationCap,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { getAvatarFallbackSvg, handleImageError } from '../../utils/imageFallback';
 
 export const TimeBankProfile: React.FC = () => {
   const { currentUser, transactions } = useApp();
@@ -78,6 +79,7 @@ export const TimeBankProfile: React.FC = () => {
               <img
                 src={currentUser.avatar}
                 alt={currentUser.name}
+                onError={(e) => handleImageError(e, getAvatarFallbackSvg(currentUser.name))}
                 className="w-14 h-14 rounded-2xl object-cover border-2 border-white shadow-md"
               />
               <div>

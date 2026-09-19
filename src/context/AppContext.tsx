@@ -76,15 +76,15 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const STORAGE_KEYS = {
-  USERS: 'skillcraft_users_v1',
-  CURRENT_USER_ID: 'skillcraft_current_user_id_v1',
-  ROLE: 'skillcraft_role_v1',
-  ACTIVE_TAB: 'skillcraft_active_tab_v1',
-  SKILLS: 'skillcraft_skills_v1',
-  CONTRACTS: 'skillcraft_contracts_v1',
-  DISPUTES: 'skillcraft_disputes_v1',
-  TRANSACTIONS: 'skillcraft_transactions_v1',
-  CONFIG: 'skillcraft_config_v1',
+  USERS: 'skillcraft_users_v2',
+  CURRENT_USER_ID: 'skillcraft_current_user_id_v2',
+  ROLE: 'skillcraft_role_v2',
+  ACTIVE_TAB: 'skillcraft_active_tab_v2',
+  SKILLS: 'skillcraft_skills_v2',
+  CONTRACTS: 'skillcraft_contracts_v2',
+  DISPUTES: 'skillcraft_disputes_v2',
+  TRANSACTIONS: 'skillcraft_transactions_v2',
+  CONFIG: 'skillcraft_config_v2',
 };
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -111,7 +111,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [skillCards, setSkillCards] = useState<SkillCard[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.SKILLS);
-    return saved ? JSON.parse(saved) : INITIAL_SKILLS;
+    if (!saved) return INITIAL_SKILLS;
+    try {
+      const parsed: SkillCard[] = JSON.parse(saved);
+      // 自愈修复：替换任何过期的 404 图片与旧缓存，保证用户无缝获得最佳展示
+      return parsed.map((card) => {
+        const imgs = card.teachSkill.portfolioImages?.map((url) =>
+          url.includes('photo-1579783902614-a3fb3927b675')
+            ? 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&auto=format&fit=crop&q=80'
+            : url
+        );
+        return {
+          ...card,
+          teachSkill: {
+            ...card.teachSkill,
+            portfolioImages: imgs,
+          },
+        };
+      });
+    } catch {
+      return INITIAL_SKILLS;
+    }
   });
 
   const [contracts, setContracts] = useState<SwapContract[]>(() => {

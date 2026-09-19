@@ -18,6 +18,7 @@ import {
 import { useApp } from '../../context/AppContext';
 import { SwapContract, ContractMilestone } from '../../types';
 import { DisputeModal } from './DisputeModal';
+import { getAvatarFallbackSvg, handleImageError } from '../../utils/imageFallback';
 
 export const SwapWorkbench: React.FC = () => {
   const { currentUser, contracts, completeMilestone } = useApp();
@@ -199,6 +200,7 @@ export const SwapWorkbench: React.FC = () => {
                       <img
                         src={contract.teacherAvatar}
                         alt={contract.teacherName}
+                        onError={(e) => handleImageError(e, getAvatarFallbackSvg(contract.teacherName))}
                         className="w-9 h-9 rounded-full object-cover border border-craft-border"
                       />
                       <div className="text-left">
@@ -218,6 +220,7 @@ export const SwapWorkbench: React.FC = () => {
                       <img
                         src={contract.studentAvatar}
                         alt={contract.studentName}
+                        onError={(e) => handleImageError(e, getAvatarFallbackSvg(contract.studentName))}
                         className="w-9 h-9 rounded-full object-cover border border-craft-border"
                       />
                       <div className="text-left">
