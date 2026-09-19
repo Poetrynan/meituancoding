@@ -4,77 +4,66 @@
 
 @layer base {
   body {
-    background-color: #FAF6F0;
+    background-color: #FDFBF7;
     color: #2C2825;
-    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, .font-handcraft {
-    font-family: "Noto Serif SC", "Songti SC", Georgia, serif;
+    font-family: "Noto Serif SC", "Songti SC", "STSong", Georgia, serif;
   }
 }
 
-/* 温暖手作质感：缝线边框效果 */
-.border-stitch {
-  border: 2px dashed #D4C7BA;
-  position: relative;
+/* 丝滑温暖手作设计系统基础类 */
+
+/* 细腻柔和边框 */
+.border-subtle {
+  border-color: rgba(226, 218, 208, 0.7);
 }
 
-/* 纸张纹理轻微颗粒感模拟 */
-.bg-craft-grain {
-  background-color: #FAF6F0;
-  background-image: radial-gradient(#E8DFD5 0.75px, transparent 0.75px), radial-gradient(#E8DFD5 0.75px, #FAF6F0 0.75px);
-  background-size: 30px 30px;
-  background-position: 0 0, 15px 15px;
-}
-
-/* 手作印章质感 */
+/* 极简精致图章印鉴 */
 .stamp-badge {
-  border: 1.5px solid currentColor;
-  border-radius: 6px;
-  padding: 2px 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  border: 1px solid currentColor;
+  border-radius: 9999px;
+  padding: 2px 10px;
+  letter-spacing: 0.03em;
   display: inline-flex;
   align-items: center;
   gap: 4px;
 }
 
-/* 拍立得照片卡片效果 */
-.polaroid-card {
-  background: white;
-  padding: 10px 10px 20px 10px;
-  box-shadow: 0 4px 15px rgba(44, 40, 37, 0.08);
-  border-radius: 6px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+/* 优雅卡片微光影 */
+.craft-shadow {
+  box-shadow: 0 2px 8px -1px rgba(44, 40, 37, 0.04), 0 8px 24px -4px rgba(44, 40, 37, 0.06);
 }
 
-.polaroid-card:hover {
-  transform: translateY(-4px) rotate(-0.5deg);
-  box-shadow: 0 12px 24px rgba(44, 40, 37, 0.12);
+.craft-shadow-hover {
+  box-shadow: 0 4px 12px -2px rgba(44, 40, 37, 0.06), 0 16px 32px -6px rgba(44, 40, 37, 0.1);
 }
 
-/* 手绘打卡圆环动画 */
-@keyframes ring-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.04); }
+/* 脉冲光晕效果 */
+@keyframes warm-pulse {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
 }
 
-.animate-ring-pulse {
-  animation: ring-pulse 2s infinite ease-in-out;
+.animate-warm-pulse {
+  animation: warm-pulse 3s infinite ease-in-out;
 }
 
-/* 优雅精致平滑滚动条 */
+/* 优雅平滑滚动条 */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F2ECE4;
+  background: #FAF6F0;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D4C7BA;
-  border-radius: 4px;
+  background: #D9CEC2;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #9E5A44;

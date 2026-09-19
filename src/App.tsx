@@ -24,7 +24,7 @@ const MainContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-craft-paper bg-craft-grain flex flex-col selection:bg-craft-terracotta selection:text-white">
+    <div className="min-h-screen bg-[#FDFBF7] text-stone-800 flex flex-col selection:bg-[#9E5A44] selection:text-white">
       {/* 顶部全局手作导航 */}
       <Navbar onOpenPublishModal={() => setIsPublishModalOpen(true)} />
 

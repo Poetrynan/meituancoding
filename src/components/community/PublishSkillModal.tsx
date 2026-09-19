@@ -27,7 +27,7 @@ const PRESET_PORTFOLIOS = [
   },
   {
     label: '代码编程',
-    url: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop&q=80',
+    url: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&auto=format&fit=crop&q=80',
   },
   {
     label: '手冲咖啡',

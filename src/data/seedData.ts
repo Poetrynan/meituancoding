@@ -194,8 +194,8 @@ export const INITIAL_SKILLS: SkillCard[] = [
       description: '抛弃晦涩计算机理论，带你用 3 次课搞定 Excel 批量合并、网络数据采集与自动发邮件脚本。即使完全没接触过代码也能听懂。',
       highlightTags: ['零基础友好', '办公效率翻倍', '即学即用脚本'],
       portfolioImages: [
-        'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop&q=80',
-        'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600&auto=format&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&auto=format&fit=crop&q=80',
+        'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&auto=format&fit=crop&q=80',
       ],
       teachingMode: 'online',
       hoursPerSession: 1.5,
