@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #FAF6F0;
+    color: #2C2825;
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  }
+
+  h1, h2, h3, .font-handcraft {
+    font-family: "Noto Serif SC", "Songti SC", Georgia, serif;
+  }
+}
+
+/* 温暖手作质感：缝线边框效果 */
+.border-stitch {
+  border: 2px dashed #D4C7BA;
+  position: relative;
+}
+
+/* 纸张纹理轻微颗粒感模拟 */
+.bg-craft-grain {
+  background-color: #FAF6F0;
+  background-image: radial-gradient(#E8DFD5 0.75px, transparent 0.75px), radial-gradient(#E8DFD5 0.75px, #FAF6F0 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+/* 手作印章质感 */
+.stamp-badge {
+  border: 1.5px solid currentColor;
+  border-radius: 6px;
+  padding: 2px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 拍立得照片卡片效果 */
+.polaroid-card {
+  background: white;
+  padding: 10px 10px 20px 10px;
+  box-shadow: 0 4px 15px rgba(44, 40, 37, 0.08);
+  border-radius: 6px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.polaroid-card:hover {
+  transform: translateY(-4px) rotate(-0.5deg);
+  box-shadow: 0 12px 24px rgba(44, 40, 37, 0.12);
+}
+
+/* 手绘打卡圆环动画 */
+@keyframes ring-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+.animate-ring-pulse {
+  animation: ring-pulse 2s infinite ease-in-out;
+}
+
+/* 优雅精致平滑滚动条 */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #F2ECE4;
+}
+::-webkit-scrollbar-thumb {
+  background: #D4C7BA;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9E5A44;
+}
