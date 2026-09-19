@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: skillcraft-backend
+    runtime: python
+    region: singapore
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: python backend/run.py
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: VITE_SUPABASE_URL
+        value: https://sjniqhqkiffehuguotwo.supabase.co
+      - key: VITE_SUPABASE_ANON_KEY
+        value: sb_publishable_nzU_ZApj6ZmTr9A0G1J5Hg_XJrYTm6m
