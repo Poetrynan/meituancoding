@@ -180,7 +180,7 @@ export default function App() {
   }, []);
 
   const navigateToHome = () => {
-    if (window.location.pathname.includes('log') || window.location.pathname.includes('land')) {
+    if (window.location.pathname !== '/') {
       window.history.pushState(null, '', '/');
     }
     window.location.hash = '';
