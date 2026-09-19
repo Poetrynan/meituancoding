@@ -45,218 +45,179 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToMain, hi
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* 管理员顶部警示横幅与退出按钮 */}
-      <div className="bg-gradient-to-r from-craft-terracotta to-craft-ink text-white rounded-3xl p-6 shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center font-bold">
-            <ShieldCheck className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold font-handcraft">
-                巧遇·社区治理与风控管理中枢
-              </h1>
-              <span className="text-[11px] bg-white/20 px-2 py-0.5 rounded-full uppercase font-mono tracking-wider">
-                ADMIN CONSOLE
-              </span>
-            </div>
-            <p className="text-xs text-white/80 mt-0.5">
-              监控双轨匹配流动性、审核敏感词技能卡、调解履约争议与宏观经济调控
-            </p>
-          </div>
+    <div className="space-y-6">
+      {/* 顶部标题栏 */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/[0.06]">
+        <div>
+          <h1 className="text-xl font-semibold text-white tracking-tight">
+            平台治理概览
+          </h1>
+          <p className="text-xs text-zinc-400 mt-0.5">
+            实时监测技能发布合规、契约履约进展与社区学时流动性
+          </p>
         </div>
 
         <button
           onClick={handleReturn}
-          className="px-4 py-2 rounded-xl bg-white text-craft-ink text-xs font-bold hover:bg-white/90 shadow-sm transition-all self-start sm:self-auto"
+          className="px-3.5 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.1] text-zinc-200 text-xs font-medium border border-white/[0.08] transition-colors self-start sm:self-auto cursor-pointer"
         >
-          返回前台社区视角 →
+          返回前台视角 →
         </button>
       </div>
 
-      {/* 管理后台四大功能 Tab 导航 (在 AdminShell 中由左侧侧边栏接管) */}
+      {/* 管理后台四大功能 Tab 导航 (在 AdminShell 外部独立使用时展示) */}
       {!hideTabs && (
-        <div className="flex items-center gap-2 border-b border-craft-border pb-3 overflow-x-auto">
-        <button
-          onClick={() => setActiveAdminTab('analytics')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-            activeAdminTab === 'analytics'
-              ? 'bg-craft-terracotta text-white shadow-sm'
-              : 'bg-white text-craft-ink-light border border-craft-border hover:bg-craft-paper'
-          }`}
-        >
-          <BarChart3 className="w-4 h-4" />
-          平台运营宏观大盘
-        </button>
-
-        <button
-          onClick={() => setActiveAdminTab('audit')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap relative ${
-            activeAdminTab === 'audit'
-              ? 'bg-craft-terracotta text-white shadow-sm'
-              : 'bg-white text-craft-ink-light border border-craft-border hover:bg-craft-paper'
-          }`}
-        >
-          <ShieldCheck className="w-4 h-4" />
-          技能合规审核中枢
-          {pendingAuditCount > 0 && (
-            <span className="w-5 h-5 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center font-bold">
-              {pendingAuditCount}
-            </span>
-          )}
-        </button>
-
-        <button
-          onClick={() => setActiveAdminTab('court')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap relative ${
-            activeAdminTab === 'court'
-              ? 'bg-craft-terracotta text-white shadow-sm'
-              : 'bg-white text-craft-ink-light border border-craft-border hover:bg-craft-paper'
-          }`}
-        >
-          <Gavel className="w-4 h-4" />
-          互换纠纷仲裁法庭
-          {pendingCourtCount > 0 && (
-            <span className="w-5 h-5 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center font-bold">
-              {pendingCourtCount}
-            </span>
-          )}
-        </button>
-
-        <button
-          onClick={() => setActiveAdminTab('tokenomics')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-            activeAdminTab === 'tokenomics'
-              ? 'bg-craft-terracotta text-white shadow-sm'
-              : 'bg-white text-craft-ink-light border border-craft-border hover:bg-craft-paper'
-          }`}
-        >
-          <Coins className="w-4 h-4" />
-          时间银行经济调控
-        </button>
-      </div>
+        <div className="flex items-center gap-1.5 border-b border-white/[0.06] pb-3 overflow-x-auto">
+          {[
+            { id: 'analytics', label: '运营大盘', icon: BarChart3, badge: null },
+            { id: 'audit', label: '技能审核', icon: ShieldCheck, badge: pendingAuditCount },
+            { id: 'court', label: '纠纷仲裁', icon: Gavel, badge: pendingCourtCount },
+            { id: 'tokenomics', label: '经济调控', icon: Coins, badge: null },
+          ].map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeAdminTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveAdminTab(tab.id as any)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                  isActive
+                    ? 'bg-white/[0.1] text-white border border-white/[0.12] shadow-sm'
+                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.03] border border-transparent'
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5" />
+                <span>{tab.label}</span>
+                {tab.badge && tab.badge > 0 && (
+                  <span className="px-1.5 py-0.2 rounded-full text-[10px] font-mono bg-rose-500/20 text-rose-400 border border-rose-500/30">
+                    {tab.badge}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
       )}
 
-      {/* Tab 1: 平台运营宏观大盘 */}
+      {/* Tab 1: 平台运营大盘 */}
       {activeAdminTab === 'analytics' && (
         <div className="space-y-6">
-          {/* 四项 KPI 统计卡 */}
+          {/* 四项核心数据 KPI 卡片 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white p-5 rounded-3xl border border-craft-border shadow-craft">
+            <div className="bg-[#14171F] p-5 rounded-2xl border border-white/[0.06] hover:border-white/[0.12] transition-colors">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-craft-ink-muted">社区注册居民</span>
-                <Users className="w-4 h-4 text-craft-terracotta" />
+                <span className="text-xs text-zinc-400 font-medium">注册用户</span>
+                <Users className="w-4 h-4 text-zinc-500" />
               </div>
-              <p className="text-3xl font-bold font-handcraft text-craft-ink">{users.length}</p>
-              <p className="text-[11px] text-craft-forest mt-1">● 今日新增 +2 位匠心居民</p>
+              <p className="text-2xl font-bold font-mono text-white tracking-tight">{users.length}</p>
+              <p className="text-[11px] text-emerald-400/90 mt-1 font-mono">+2 今日新增</p>
             </div>
 
-            <div className="bg-white p-5 rounded-3xl border border-craft-border shadow-craft">
+            <div className="bg-[#14171F] p-5 rounded-2xl border border-white/[0.06] hover:border-white/[0.12] transition-colors">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-craft-ink-muted">在架技能卡总数</span>
-                <Sparkles className="w-4 h-4 text-craft-amber" />
+                <span className="text-xs text-zinc-400 font-medium">在架技能卡</span>
+                <Sparkles className="w-4 h-4 text-zinc-500" />
               </div>
-              <p className="text-3xl font-bold font-handcraft text-craft-ink">
+              <p className="text-2xl font-bold font-mono text-white tracking-tight">
                 {skillCards.length}
               </p>
-              <p className="text-[11px] text-craft-forest mt-1">● 涵盖 6 大手作与生活品类</p>
+              <p className="text-[11px] text-zinc-500 mt-1">涵盖 6 大门类</p>
             </div>
 
-            <div className="bg-white p-5 rounded-3xl border border-craft-border shadow-craft">
+            <div className="bg-[#14171F] p-5 rounded-2xl border border-white/[0.06] hover:border-white/[0.12] transition-colors">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-craft-ink-muted">当前履约协作契约</span>
-                <Briefcase className="w-4 h-4 text-blue-600" />
+                <span className="text-xs text-zinc-400 font-medium">进行中契约</span>
+                <Briefcase className="w-4 h-4 text-zinc-500" />
               </div>
-              <p className="text-3xl font-bold font-handcraft text-blue-600">
+              <p className="text-2xl font-bold font-mono text-white tracking-tight">
                 {activeContractsCount}
               </p>
-              <p className="text-[11px] text-craft-ink-light mt-1">● 契约课纲完成率 94.2%</p>
+              <p className="text-[11px] text-zinc-500 mt-1">履约完成率 94.2%</p>
             </div>
 
-            <div className="bg-white p-5 rounded-3xl border border-craft-border shadow-craft">
+            <div className="bg-[#14171F] p-5 rounded-2xl border border-white/[0.06] hover:border-white/[0.12] transition-colors">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-craft-ink-muted">全网违约翻车率 (Flake Rate)</span>
-                <CheckCircle2 className="w-4 h-4 text-craft-forest" />
+                <span className="text-xs text-zinc-400 font-medium">违约争议率</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
               </div>
-              <p className="text-3xl font-bold font-handcraft text-craft-forest">0.6%</p>
-              <p className="text-[11px] text-craft-forest mt-1">● 远优于闲鱼/社交群（~35%）</p>
+              <p className="text-2xl font-bold font-mono text-emerald-400 tracking-tight">0.6%</p>
+              <p className="text-[11px] text-emerald-400/80 mt-1">履约状态健康</p>
             </div>
           </div>
 
-          {/* 双轨匹配效率与门类分析 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* 双轨互换模式占比 */}
-            <div className="bg-white rounded-3xl p-6 border border-craft-border shadow-craft space-y-4">
+          {/* 匹配模式与门类分析 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* 互换模式占比 */}
+            <div className="bg-[#14171F] rounded-2xl p-5 border border-white/[0.06] space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="font-handcraft text-base font-bold text-craft-ink flex items-center gap-2">
-                  <ArrowRightLeft className="w-4 h-4 text-craft-terracotta" />
-                  双轨互换模式流动性占比
+                <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                  <ArrowRightLeft className="w-4 h-4 text-zinc-400" />
+                  互换模式分布
                 </h3>
-                <span className="text-xs text-craft-forest font-bold">健康双循环</span>
+                <span className="text-xs text-zinc-500 font-mono">总览</span>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <div>
-                  <div className="flex justify-between text-xs font-semibold text-craft-ink mb-1">
-                    <span>时光银行网状流转 (Time Bank Mesh)</span>
-                    <span className="text-craft-forest font-bold">58%</span>
+                  <div className="flex justify-between text-xs font-medium text-zinc-300 mb-1.5">
+                    <span>时光存折流转</span>
+                    <span className="text-zinc-200 font-mono font-semibold">58%</span>
                   </div>
-                  <div className="w-full bg-craft-paper rounded-full h-3 overflow-hidden border border-craft-border">
+                  <div className="w-full bg-white/[0.06] rounded-full h-2 overflow-hidden">
                     <div
-                      className="bg-craft-forest h-full rounded-full"
+                      className="bg-emerald-500/80 h-full rounded-full"
                       style={{ width: '58%' }}
                     />
                   </div>
-                  <p className="text-[11px] text-craft-ink-muted mt-1">
-                    教A赚币，用币向B求学，有效打破传统“双重巧合困境”
+                  <p className="text-[11px] text-zinc-500 mt-1">
+                    授课赚取学时币，向其他导师请教学习
                   </p>
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-xs font-semibold text-craft-ink mb-1">
-                    <span>天作之合 1v1 直连浪漫切磋 (Direct Match)</span>
-                    <span className="text-craft-amber font-bold">42%</span>
+                  <div className="flex justify-between text-xs font-medium text-zinc-300 mb-1.5">
+                    <span>1对1 双向直换</span>
+                    <span className="text-zinc-200 font-mono font-semibold">42%</span>
                   </div>
-                  <div className="w-full bg-craft-paper rounded-full h-3 overflow-hidden border border-craft-border">
+                  <div className="w-full bg-white/[0.06] rounded-full h-2 overflow-hidden">
                     <div
-                      className="bg-craft-amber h-full rounded-full"
+                      className="bg-amber-500/80 h-full rounded-full"
                       style={{ width: '42%' }}
                     />
                   </div>
-                  <p className="text-[11px] text-craft-ink-muted mt-1">
-                    双方教与学完美互补，零时光币门槛直接对调
+                  <p className="text-[11px] text-zinc-500 mt-1">
+                    双方技能需求吻合，免时光币直接切磋
                   </p>
                 </div>
               </div>
             </div>
 
             {/* 热门技能门类热度 */}
-            <div className="bg-white rounded-3xl p-6 border border-craft-border shadow-craft space-y-4">
-              <h3 className="font-handcraft text-base font-bold text-craft-ink flex items-center gap-2">
-                <PieChart className="w-4 h-4 text-craft-amber" />
-                热门技能门类分布与流转密度
+            <div className="bg-[#14171F] rounded-2xl p-5 border border-white/[0.06] space-y-4">
+              <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                <PieChart className="w-4 h-4 text-zinc-400" />
+                热门技能分布
               </h3>
 
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 {[
                   { name: '音乐乐器 (民谣吉他/尤克里里)', pct: 28, color: 'bg-[#9E5A44]', icon: Music },
-                  { name: '数字编程 (Python自动化/爬虫)', pct: 24, color: 'bg-[#3B5B43]', icon: Code2 },
-                  { name: '咖啡烘焙 (手冲萃取/拉花)', pct: 20, color: 'bg-[#D99636]', icon: Coffee },
-                  { name: '胶片摄影 (暗房显影/构图)', pct: 16, color: 'bg-[#7F4330]', icon: Camera },
-                  { name: '生活手作与外语 (木作/插画/法语)', pct: 12, color: 'bg-[#554F47]', icon: Hammer },
+                  { name: '数字编程 (Python/自动化)', pct: 24, color: 'bg-emerald-600', icon: Code2 },
+                  { name: '咖啡生活 (手冲萃取/拉花)', pct: 20, color: 'bg-amber-600', icon: Coffee },
+                  { name: '胶片摄影 (暗房显影/构图)', pct: 16, color: 'bg-stone-500', icon: Camera },
+                  { name: '生活手作 (木工/插画/陶艺)', pct: 12, color: 'bg-blue-600', icon: Hammer },
                 ].map((item, i) => {
                   const Icon = item.icon;
                   return (
                     <div key={i} className="text-xs">
-                      <div className="flex justify-between text-craft-ink font-semibold mb-1">
+                      <div className="flex justify-between text-zinc-300 font-medium mb-1">
                         <span className="flex items-center gap-1.5">
-                          <Icon className="w-3.5 h-3.5 text-stone-600 flex-shrink-0" />
+                          <Icon className="w-3.5 h-3.5 text-zinc-500 flex-shrink-0" />
                           <span>{item.name}</span>
                         </span>
-                        <span>{item.pct}%</span>
+                        <span className="font-mono text-zinc-400">{item.pct}%</span>
                       </div>
-                      <div className="w-full bg-craft-paper rounded-full h-2 overflow-hidden border border-craft-border">
+                      <div className="w-full bg-white/[0.06] rounded-full h-1.5 overflow-hidden">
                         <div
                           className={`${item.color} h-full rounded-full`}
                           style={{ width: `${item.pct}%` }}
