@@ -1,5 +1,27 @@
 export type Role = 'user' | 'admin';
 
+export type AdminRole = 'super_admin' | 'auditor' | 'arbitrator';
+
+export interface AdminUser {
+  id: string;
+  email: string;
+  displayName: string;
+  avatar: string;
+  role: AdminRole;
+  department: string;
+}
+
+export interface AuditLog {
+  id: string;
+  adminId: string;
+  adminName: string;
+  action: string;
+  targetType: 'skill' | 'contract' | 'dispute' | 'config';
+  targetId: string;
+  details: string;
+  timestamp: string;
+}
+
 export type SkillCategory = 'music' | 'tech' | 'craft' | 'photo' | 'language' | 'life';
 
 export type SkillLevel = 'beginner' | 'intermediate' | 'expert';

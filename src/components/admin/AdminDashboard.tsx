@@ -22,7 +22,12 @@ import { SkillAuditTable } from './SkillAuditTable';
 import { DisputeArbitrationCourt } from './DisputeArbitrationCourt';
 import { TokenomicsControl } from './TokenomicsControl';
 
-export const AdminDashboard: React.FC = () => {
+interface AdminDashboardProps {
+  onBackToMain?: () => void;
+  hideTabs?: boolean;
+}
+
+export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToMain, hideTabs }) => {
   const { users, skillCards, contracts, disputes, setCurrentRole } = useApp();
 
   const [activeAdminTab, setActiveAdminTab] = useState<'analytics' | 'audit' | 'court' | 'tokenomics'>('analytics');
@@ -30,6 +35,14 @@ export const AdminDashboard: React.FC = () => {
   const pendingAuditCount = skillCards.filter((s) => s.status === 'pending_review').length;
   const pendingCourtCount = disputes.filter((d) => d.status === 'pending').length;
   const activeContractsCount = contracts.filter((c) => c.status === 'active').length;
+
+  const handleReturn = () => {
+    if (onBackToMain) {
+      onBackToMain();
+    } else {
+      setCurrentRole('user');
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -55,15 +68,16 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         <button
-          onClick={() => setCurrentRole('user')}
+          onClick={handleReturn}
           className="px-4 py-2 rounded-xl bg-white text-craft-ink text-xs font-bold hover:bg-white/90 shadow-sm transition-all self-start sm:self-auto"
         >
           返回前台社区视角 →
         </button>
       </div>
 
-      {/* 管理后台四大功能 Tab 导航 */}
-      <div className="flex items-center gap-2 border-b border-craft-border pb-3 overflow-x-auto">
+      {/* 管理后台四大功能 Tab 导航 (在 AdminShell 中由左侧侧边栏接管) */}
+      {!hideTabs && (
+        <div className="flex items-center gap-2 border-b border-craft-border pb-3 overflow-x-auto">
         <button
           onClick={() => setActiveAdminTab('analytics')}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
@@ -122,6 +136,7 @@ export const AdminDashboard: React.FC = () => {
           时间银行经济调控
         </button>
       </div>
+      )}
 
       {/* Tab 1: 平台运营宏观大盘 */}
       {activeAdminTab === 'analytics' && (
