@@ -13,6 +13,7 @@ import {
   ChevronDown,
   ChevronUp,
   Award,
+  Check,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { SwapContract, ContractMilestone } from '../../types';
@@ -141,7 +142,7 @@ export const SwapWorkbench: React.FC = () => {
                   <div>
                     <div className="flex items-center gap-2.5 mb-1.5">
                       <span
-                        className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${
+                        className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border flex items-center gap-1 ${
                           isDisputed
                             ? 'bg-red-50 text-red-600 border-red-200'
                             : isCompleted
@@ -149,21 +150,40 @@ export const SwapWorkbench: React.FC = () => {
                             : 'bg-craft-amber-light text-[#8C5D17] border-craft-amber/30'
                         }`}
                       >
-                        {isDisputed
-                          ? '⚖️ 纠纷仲裁中'
-                          : isCompleted
-                          ? '🎉 已圆满结课'
-                          : '⏳ 履约进行中'}
+                        {isDisputed ? (
+                          <>
+                            <ShieldAlert className="w-3 h-3 flex-shrink-0" />
+                            <span>纠纷仲裁中</span>
+                          </>
+                        ) : isCompleted ? (
+                          <>
+                            <CheckCircle2 className="w-3 h-3 flex-shrink-0" />
+                            <span>已圆满结课</span>
+                          </>
+                        ) : (
+                          <>
+                            <Clock className="w-3 h-3 flex-shrink-0" />
+                            <span>履约进行中</span>
+                          </>
+                        )}
                       </span>
 
                       <span className="text-xs text-craft-ink-muted">
                         签署日期：{contract.createdAt}
                       </span>
 
-                      <span className="text-xs text-craft-ink-light bg-white px-2 py-0.5 rounded-md border border-craft-border">
-                        {contract.swapType === 'direct_1v1'
-                          ? '✨ 1v1 浪漫直换'
-                          : `🪙 质押 ${contract.stakedCredits} 时光币`}
+                      <span className="text-xs text-craft-ink-light bg-white px-2 py-0.5 rounded-md border border-craft-border flex items-center gap-1">
+                        {contract.swapType === 'direct_1v1' ? (
+                          <>
+                            <Sparkles className="w-3 h-3 text-amber-600 flex-shrink-0" />
+                            <span>1v1 浪漫直换</span>
+                          </>
+                        ) : (
+                          <>
+                            <Coins className="w-3 h-3 text-amber-600 flex-shrink-0" />
+                            <span>质押 {contract.stakedCredits} 时光币</span>
+                          </>
+                        )}
                       </span>
                     </div>
 
@@ -279,7 +299,7 @@ export const SwapWorkbench: React.FC = () => {
                                     : 'bg-craft-terracotta text-white'
                                 }`}
                               >
-                                {bothDone ? '✓' : milestone.step}
+                                {bothDone ? <Check className="w-3.5 h-3.5 stroke-[2.5]" /> : milestone.step}
                               </span>
 
                               <div>

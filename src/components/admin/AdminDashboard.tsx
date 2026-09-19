@@ -11,6 +11,11 @@ import {
   ArrowRightLeft,
   CheckCircle2,
   PieChart,
+  Music,
+  Code2,
+  Coffee,
+  Camera,
+  Hammer,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { SkillAuditTable } from './SkillAuditTable';
@@ -220,25 +225,31 @@ export const AdminDashboard: React.FC = () => {
 
               <div className="space-y-2.5">
                 {[
-                  { name: '🎸 音乐乐器 (民谣吉他/尤克里里)', pct: 28, color: 'bg-[#9E5A44]' },
-                  { name: '💻 数字编程 (Python自动化/爬虫)', pct: 24, color: 'bg-[#3B5B43]' },
-                  { name: '☕ 咖啡烘焙 (手冲萃取/拉花)', pct: 20, color: 'bg-[#D99636]' },
-                  { name: '📷 胶片摄影 (暗房显影/构图)', pct: 16, color: 'bg-[#7F4330]' },
-                  { name: '🪵 生活手作与外语 (木作/插画/法语)', pct: 12, color: 'bg-[#554F47]' },
-                ].map((item, i) => (
-                  <div key={i} className="text-xs">
-                    <div className="flex justify-between text-craft-ink font-semibold mb-1">
-                      <span>{item.name}</span>
-                      <span>{item.pct}%</span>
+                  { name: '音乐乐器 (民谣吉他/尤克里里)', pct: 28, color: 'bg-[#9E5A44]', icon: Music },
+                  { name: '数字编程 (Python自动化/爬虫)', pct: 24, color: 'bg-[#3B5B43]', icon: Code2 },
+                  { name: '咖啡烘焙 (手冲萃取/拉花)', pct: 20, color: 'bg-[#D99636]', icon: Coffee },
+                  { name: '胶片摄影 (暗房显影/构图)', pct: 16, color: 'bg-[#7F4330]', icon: Camera },
+                  { name: '生活手作与外语 (木作/插画/法语)', pct: 12, color: 'bg-[#554F47]', icon: Hammer },
+                ].map((item, i) => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={i} className="text-xs">
+                      <div className="flex justify-between text-craft-ink font-semibold mb-1">
+                        <span className="flex items-center gap-1.5">
+                          <Icon className="w-3.5 h-3.5 text-stone-600 flex-shrink-0" />
+                          <span>{item.name}</span>
+                        </span>
+                        <span>{item.pct}%</span>
+                      </div>
+                      <div className="w-full bg-craft-paper rounded-full h-2 overflow-hidden border border-craft-border">
+                        <div
+                          className={`${item.color} h-full rounded-full`}
+                          style={{ width: `${item.pct}%` }}
+                        />
+                      </div>
                     </div>
-                    <div className="w-full bg-craft-paper rounded-full h-2 overflow-hidden border border-craft-border">
-                      <div
-                        className={`${item.color} h-full rounded-full`}
-                        style={{ width: `${item.pct}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>

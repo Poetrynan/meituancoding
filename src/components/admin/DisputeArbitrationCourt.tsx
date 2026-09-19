@@ -170,8 +170,12 @@ export const DisputeArbitrationCourt: React.FC = () => {
                         </div>
 
                         <div className="flex items-center gap-2 text-[11px]">
-                          <span>导师：{m.completedByTeacher ? '已教✓' : '未打卡'}</span>
-                          <span>学员：{m.completedByStudent ? '已学✓' : '未打卡'}</span>
+                          <span className={m.completedByTeacher ? 'text-craft-forest font-semibold' : 'text-craft-ink-muted'}>
+                            导师：{m.completedByTeacher ? '已授课' : '未打卡'}
+                          </span>
+                          <span className={m.completedByStudent ? 'text-craft-forest font-semibold' : 'text-craft-ink-muted'}>
+                            学员：{m.completedByStudent ? '已验收' : '未打卡'}
+                          </span>
                         </div>
                       </div>
                     );

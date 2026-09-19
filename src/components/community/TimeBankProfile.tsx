@@ -13,11 +13,36 @@ import {
   CheckCircle2,
   Gift,
   Lock,
+  Sprout,
+  Code2,
+  Camera,
+  Coffee,
+  GraduationCap,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const TimeBankProfile: React.FC = () => {
   const { currentUser, transactions } = useApp();
+
+  // 渲染荣誉勋章矢量图标
+  const renderBadgeIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'sprout':
+        return <Sprout className="w-5 h-5 text-[#9E5A44]" />;
+      case 'star':
+        return <Star className="w-5 h-5 text-[#D99636] fill-current" />;
+      case 'clock':
+        return <Clock className="w-5 h-5 text-[#3B5B43]" />;
+      case 'code':
+        return <Code2 className="w-5 h-5 text-[#3B5B43]" />;
+      case 'camera':
+        return <Camera className="w-5 h-5 text-[#D99636]" />;
+      case 'coffee':
+        return <Coffee className="w-5 h-5 text-[#D99636]" />;
+      default:
+        return <Award className="w-5 h-5 text-[#9E5A44]" />;
+    }
+  };
 
   // 筛选当前用户的时光币流水
   const userTransactions = transactions.filter((t) => t.userId === currentUser.id);
@@ -145,10 +170,12 @@ export const TimeBankProfile: React.FC = () => {
           {currentUser.badges.map((badge) => (
             <div
               key={badge.id}
-              className={`p-4 rounded-2xl border-2 flex items-start gap-3 transition-transform hover:-translate-y-0.5 ${badge.badgeStyle}`}
+              className={`p-4 rounded-2xl border-2 flex items-start gap-3.5 transition-all hover:-translate-y-0.5 hover:shadow-sm ${badge.badgeStyle}`}
             >
-              <span className="text-2xl">{badge.icon}</span>
-              <div>
+              <div className="w-10 h-10 rounded-xl bg-white/90 border border-current/20 flex items-center justify-center flex-shrink-0 shadow-sm">
+                {renderBadgeIcon(badge.icon)}
+              </div>
+              <div className="min-w-0">
                 <h4 className="font-bold text-sm leading-snug">{badge.name}</h4>
                 <p className="text-xs opacity-90 mt-1 leading-relaxed">{badge.description}</p>
               </div>
@@ -156,16 +183,18 @@ export const TimeBankProfile: React.FC = () => {
           ))}
 
           {/* 待解锁的灰色勋章提示 */}
-          <div className="p-4 rounded-2xl border-2 border-dashed border-craft-border bg-craft-paper/50 flex items-start gap-3 opacity-60">
-            <span className="text-2xl">🎓</span>
-            <div>
+          <div className="p-4 rounded-2xl border-2 border-dashed border-stone-300 bg-stone-50/70 flex items-start gap-3.5 opacity-60">
+            <div className="w-10 h-10 rounded-xl bg-stone-200/80 flex items-center justify-center flex-shrink-0">
+              <GraduationCap className="w-5 h-5 text-stone-500" />
+            </div>
+            <div className="min-w-0">
               <div className="flex items-center gap-1.5">
-                <h4 className="font-bold text-sm text-craft-ink-light">桃李满邻里</h4>
-                <span className="text-[10px] bg-craft-paper text-craft-ink-muted px-1.5 py-0.2 rounded border">
+                <h4 className="font-bold text-sm text-stone-700">桃李满邻里</h4>
+                <span className="text-[10px] bg-stone-200 text-stone-600 px-1.5 py-0.5 rounded border border-stone-300">
                   未解锁
                 </span>
               </div>
-              <p className="text-xs text-craft-ink-muted mt-1">
+              <p className="text-xs text-stone-500 mt-1">
                 累计授课满 30 学时即可获得此大师印章
               </p>
             </div>

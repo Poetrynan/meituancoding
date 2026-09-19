@@ -10,6 +10,7 @@ import {
   ChevronDown,
   Coins,
   Store,
+  Check,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -227,7 +228,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPublishModal }) => {
                               </p>
                             </div>
                             {u.id === currentUser.id && (
-                              <span className="text-xs text-[#9E5A44] font-bold">✓</span>
+                              <Check className="w-3.5 h-3.5 text-[#9E5A44] flex-shrink-0" />
                             )}
                           </button>
                         ))}

@@ -12,6 +12,14 @@ import {
   ShieldCheck,
   Calendar,
   Layers,
+  Music,
+  Code2,
+  Hammer,
+  Camera,
+  Languages,
+  Coffee,
+  Check,
+  Clock,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { SkillCard } from '../../types';
@@ -180,7 +188,10 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
                   />
                   <div className="min-w-0">
                     <p className="text-xs font-bold text-stone-800 truncate whitespace-nowrap">林晨曦</p>
-                    <p className="text-[10px] text-[#9E5A44] font-medium truncate whitespace-nowrap">🎸 木吉他指弹</p>
+                    <p className="text-[10px] text-[#9E5A44] font-medium truncate whitespace-nowrap flex items-center gap-1">
+                      <Music className="w-3 h-3 flex-shrink-0" />
+                      <span>木吉他指弹</span>
+                    </p>
                   </div>
                 </div>
 
@@ -191,7 +202,10 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
                 <div className="flex items-center gap-2 min-w-0 justify-end text-right">
                   <div className="min-w-0">
                     <p className="text-xs font-bold text-stone-800 truncate whitespace-nowrap">陆小川</p>
-                    <p className="text-[10px] text-[#3B5B43] font-medium truncate whitespace-nowrap">💻 Python 办公</p>
+                    <p className="text-[10px] text-[#3B5B43] font-medium truncate whitespace-nowrap flex items-center gap-1 justify-end">
+                      <Code2 className="w-3 h-3 flex-shrink-0" />
+                      <span>Python 办公</span>
+                    </p>
                   </div>
                   <img
                     src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80"
@@ -208,11 +222,17 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
                 </p>
                 <div className="p-2 rounded-lg bg-stone-50 border border-stone-100 flex items-center justify-between text-[11px]">
                   <span className="text-stone-700">1. 基础触弦姿势 ⇄ 自动化环境配置</span>
-                  <span className="text-emerald-700 font-bold whitespace-nowrap">已打卡 ✓</span>
+                  <span className="text-emerald-700 font-bold whitespace-nowrap flex items-center gap-1">
+                    <Check className="w-3 h-3 flex-shrink-0" />
+                    <span>已打卡</span>
+                  </span>
                 </div>
                 <div className="p-2 rounded-lg bg-stone-50 border border-stone-100 flex items-center justify-between text-[11px]">
                   <span className="text-stone-700">2. 押尾泛音发音 ⇄ 网络数据抓取清洗</span>
-                  <span className="text-amber-700 font-bold whitespace-nowrap">进行中 ⏳</span>
+                  <span className="text-amber-700 font-bold whitespace-nowrap flex items-center gap-1">
+                    <Clock className="w-3 h-3 flex-shrink-0" />
+                    <span>进行中</span>
+                  </span>
                 </div>
                 <div className="p-2 rounded-lg bg-stone-50 border border-stone-100 flex items-center justify-between text-[11px]">
                   <span className="text-stone-500">3. 独奏曲目录制 ⇄ 定时任务发布验收</span>
@@ -327,26 +347,30 @@ export const SkillMarketplace: React.FC<SkillMarketplaceProps> = ({
         {/* 分类标签横向列表 */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
           {[
-            { key: 'all', label: '全部技能' },
-            { key: 'music', label: '🎸 音乐乐器' },
-            { key: 'tech', label: '💻 数字编程' },
-            { key: 'craft', label: '🪵 生活手作' },
-            { key: 'photo', label: '📷 胶片摄影' },
-            { key: 'language', label: '🗣️ 外语漫谈' },
-            { key: 'life', label: '☕ 咖啡烘焙' },
-          ].map((cat) => (
-            <button
-              key={cat.key}
-              onClick={() => setSelectedCategory(cat.key)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border ${
-                selectedCategory === cat.key
-                  ? 'bg-[#9E5A44] text-white border-[#9E5A44] shadow-sm'
-                  : 'bg-white text-stone-600 border-stone-200 hover:border-stone-300'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
+            { key: 'all', label: '全部技能', icon: Sparkles },
+            { key: 'music', label: '音乐乐器', icon: Music },
+            { key: 'tech', label: '数字编程', icon: Code2 },
+            { key: 'craft', label: '生活手作', icon: Hammer },
+            { key: 'photo', label: '胶片摄影', icon: Camera },
+            { key: 'language', label: '外语漫谈', icon: Languages },
+            { key: 'life', label: '咖啡烘焙', icon: Coffee },
+          ].map((cat) => {
+            const Icon = cat.icon;
+            return (
+              <button
+                key={cat.key}
+                onClick={() => setSelectedCategory(cat.key)}
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border ${
+                  selectedCategory === cat.key
+                    ? 'bg-[#9E5A44] text-white border-[#9E5A44] shadow-sm'
+                    : 'bg-white text-stone-600 border-stone-200 hover:border-stone-300 hover:text-stone-900'
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                <span>{cat.label}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 

@@ -8,6 +8,12 @@ import {
   Laptop,
   Coins,
   ShieldCheck,
+  Music,
+  Code2,
+  Camera,
+  Hammer,
+  Languages,
+  Coffee,
 } from 'lucide-react';
 import { SkillCard } from '../../types';
 
@@ -24,20 +30,50 @@ export const SkillCardItem: React.FC<SkillCardItemProps> = ({
   onSelect,
   onInitiateSwap,
 }) => {
-  const getCategoryLabel = (category: string) => {
+  const renderCategoryBadge = (category: string) => {
     switch (category) {
       case 'music':
-        return '🎸 音乐乐器';
+        return (
+          <span className="flex items-center gap-1">
+            <Music className="w-3 h-3 text-[#9E5A44]" />
+            <span>音乐乐器</span>
+          </span>
+        );
       case 'tech':
-        return '💻 数字编程';
+        return (
+          <span className="flex items-center gap-1">
+            <Code2 className="w-3 h-3 text-[#3B5B43]" />
+            <span>数字编程</span>
+          </span>
+        );
       case 'photo':
-        return '📷 胶片光影';
+        return (
+          <span className="flex items-center gap-1">
+            <Camera className="w-3 h-3 text-[#7F4330]" />
+            <span>胶片光影</span>
+          </span>
+        );
       case 'craft':
-        return '🪵 生活手作';
+        return (
+          <span className="flex items-center gap-1">
+            <Hammer className="w-3 h-3 text-stone-700" />
+            <span>生活手作</span>
+          </span>
+        );
       case 'language':
-        return '🗣️ 外语漫谈';
+        return (
+          <span className="flex items-center gap-1">
+            <Languages className="w-3 h-3 text-blue-700" />
+            <span>外语漫谈</span>
+          </span>
+        );
       default:
-        return '☕ 咖啡生活';
+        return (
+          <span className="flex items-center gap-1">
+            <Coffee className="w-3 h-3 text-[#D99636]" />
+            <span>咖啡生活</span>
+          </span>
+        );
     }
   };
 
@@ -106,7 +142,7 @@ export const SkillCardItem: React.FC<SkillCardItemProps> = ({
           {/* 标签微胶囊 */}
           <div className="absolute bottom-2 left-2 flex items-center gap-1.5">
             <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-white/95 text-stone-700 backdrop-blur-sm shadow-sm border border-stone-200/60 whitespace-nowrap">
-              {getCategoryLabel(card.teachSkill.category)}
+              {renderCategoryBadge(card.teachSkill.category)}
             </span>
 
             <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-black/60 text-white backdrop-blur-sm flex items-center gap-1 whitespace-nowrap">

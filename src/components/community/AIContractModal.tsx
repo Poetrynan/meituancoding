@@ -232,8 +232,18 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
             {/* 互换方式连接器 */}
             <div className="flex flex-col items-center justify-center px-4 py-1.5 rounded-xl bg-white border border-craft-border shadow-sm flex-shrink-0">
               <ArrowRightLeft className="w-4 h-4 text-craft-terracotta mb-0.5" />
-              <span className="text-[11px] font-bold text-craft-ink">
-                {isDirectSwap ? '✨ 1v1 浪漫直换' : '🪙 时光银行质押'}
+              <span className="text-[11px] font-bold text-craft-ink flex items-center gap-1">
+                {isDirectSwap ? (
+                  <>
+                    <Sparkles className="w-3 h-3 text-amber-600 flex-shrink-0" />
+                    <span>1v1 浪漫直换</span>
+                  </>
+                ) : (
+                  <>
+                    <Coins className="w-3 h-3 text-amber-600 flex-shrink-0" />
+                    <span>时光银行质押</span>
+                  </>
+                )}
               </span>
             </div>
 

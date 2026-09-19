@@ -11,6 +11,7 @@ import {
   Wand2,
   HelpCircle,
   Lightbulb,
+  ShieldCheck,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { SkillCategory, SkillLevel, TeachingMode } from '../../types';
@@ -199,12 +200,12 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
                     onChange={(e) => setTeachCategory(e.target.value as SkillCategory)}
                     className="w-full px-3 py-2 bg-craft-paper rounded-xl border border-craft-border text-xs text-craft-ink focus:outline-none focus:border-craft-terracotta"
                   >
-                    <option value="music">🎸 音乐乐器</option>
-                    <option value="tech">💻 数字编程</option>
-                    <option value="craft">🪵 生活手作</option>
-                    <option value="photo">📷 胶片摄影</option>
-                    <option value="language">🗣️ 外语漫谈</option>
-                    <option value="life">☕ 咖啡烘焙</option>
+                    <option value="music">音乐乐器</option>
+                    <option value="tech">数字编程</option>
+                    <option value="craft">生活手作</option>
+                    <option value="photo">胶片摄影</option>
+                    <option value="language">外语漫谈</option>
+                    <option value="life">咖啡烘焙</option>
                   </select>
                 </div>
 
@@ -286,10 +287,10 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
                     type="button"
                     onClick={handleAiPolish}
                     disabled={isAiPolishing}
-                    className="flex items-center gap-1 text-xs font-bold text-craft-terracotta bg-craft-terracotta-light hover:bg-craft-terracotta/20 px-2.5 py-1 rounded-lg border border-craft-terracotta/30 transition-all"
+                    className="flex items-center gap-1.5 text-xs font-bold text-craft-terracotta bg-craft-terracotta-light hover:bg-craft-terracotta/20 px-2.5 py-1 rounded-lg border border-craft-terracotta/30 transition-all cursor-pointer"
                   >
                     <Wand2 className={`w-3.5 h-3.5 ${isAiPolishing ? 'animate-spin' : ''}`} />
-                    {isAiPolishing ? 'AI 正在提炼卖点...' : '✨ AI 智能润色提炼卖点'}
+                    <span>{isAiPolishing ? 'AI 正在提炼卖点...' : 'AI 智能润色提炼卖点'}</span>
                   </button>
                 </div>
 
@@ -369,8 +370,8 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
                         {item.label}
                       </span>
                       {selectedImage === item.url && (
-                        <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-craft-terracotta text-white flex items-center justify-center text-[10px]">
-                          ✓
+                        <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-craft-terracotta text-white flex items-center justify-center">
+                          <Check className="w-2.5 h-2.5 stroke-[3]" />
                         </div>
                       )}
                     </div>
@@ -410,12 +411,12 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
                     onChange={(e) => setLearnCategory(e.target.value as SkillCategory)}
                     className="w-full px-3 py-2 bg-craft-paper rounded-xl border border-craft-border text-xs text-craft-ink focus:outline-none focus:border-craft-terracotta"
                   >
-                    <option value="tech">💻 数字编程</option>
-                    <option value="music">🎸 音乐乐器</option>
-                    <option value="craft">🪵 生活手作</option>
-                    <option value="photo">📷 胶片摄影</option>
-                    <option value="language">🗣️ 外语漫谈</option>
-                    <option value="life">☕ 咖啡烘焙</option>
+                    <option value="tech">数字编程</option>
+                    <option value="music">音乐乐器</option>
+                    <option value="craft">生活手作</option>
+                    <option value="photo">胶片摄影</option>
+                    <option value="language">外语漫谈</option>
+                    <option value="life">咖啡烘焙</option>
                   </select>
                 </div>
 
@@ -448,7 +449,10 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
               </div>
 
               <div className="p-4 bg-craft-cream rounded-2xl border border-craft-border text-xs space-y-1.5 text-craft-ink-light">
-                <p className="font-bold text-craft-ink">💡 时光银行智能保障约定：</p>
+                <p className="font-bold text-craft-ink flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-craft-forest" />
+                  <span>时光银行智能保障约定：</span>
+                </p>
                 <p>• 即使暂时没有遇到 1v1 直换伙伴，您教他人也可赚取【时光币】；</p>
                 <p>• 后续可使用赚取的时光币向社区中任意一位导师发起请教学习；</p>
                 <p>• 平台由 AI 助教协助生成《3 阶段课纲》，保障学习成果落地。</p>

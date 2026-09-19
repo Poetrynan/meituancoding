@@ -26,21 +26,21 @@ export const INITIAL_CURRENT_USER: UserProfile = {
     {
       id: 'b1',
       name: '初心引路人',
-      icon: '🌱',
+      icon: 'sprout',
       description: '累计授课超过 15 小时，耐心解答初学者疑难',
       badgeStyle: 'bg-[#FDF3EE] text-[#9E5A44] border-[#9E5A44]',
     },
     {
       id: 'b2',
       name: '匠心好评王',
-      icon: '⭐',
+      icon: 'star',
       description: '连续 5 次互换获得 100% 满分互评赞誉',
       badgeStyle: 'bg-[#FEF7EC] text-[#D99636] border-[#D99636]',
     },
     {
       id: 'b3',
       name: '守时守约',
-      icon: '⏰',
+      icon: 'clock',
       description: '准时打卡履约，从无旷课或临时鸽单记录',
       badgeStyle: 'bg-[#EBF2EC] text-[#3B5B43] border-[#3B5B43]',
     },
@@ -68,7 +68,7 @@ export const INITIAL_USERS: UserProfile[] = [
       {
         id: 'b1',
         name: '代码筑基师',
-        icon: '💻',
+        icon: 'code',
         description: '以清晰易懂的大纲带领 6 位文科生完成第一个脚本',
         badgeStyle: 'bg-[#EBF2EC] text-[#3B5B43] border-[#3B5B43]',
       },
@@ -93,7 +93,7 @@ export const INITIAL_USERS: UserProfile[] = [
       {
         id: 'b4',
         name: '光影捕手',
-        icon: '📷',
+        icon: 'camera',
         description: '手把手教授暗房显影定影实操',
         badgeStyle: 'bg-[#FEF7EC] text-[#D99636] border-[#D99636]',
       },
@@ -118,7 +118,7 @@ export const INITIAL_USERS: UserProfile[] = [
       {
         id: 'b2',
         name: '匠心好评王',
-        icon: '☕',
+        icon: 'coffee',
         description: '学员一致反馈教学干货满满，耐心温柔',
         badgeStyle: 'bg-[#FEF7EC] text-[#D99636] border-[#D99636]',
       },
@@ -530,7 +530,7 @@ export const INITIAL_TRANSACTIONS: TimeTransaction[] = [
     type: 'system_gift',
     amount: 5,
     balanceAfter: 5,
-    description: '🎉 巧遇·匠心 新居民入驻时光大礼包',
+    description: '巧遇·匠心 新居民入驻时光大礼包',
     date: '2026-09-01 10:00',
   },
   {

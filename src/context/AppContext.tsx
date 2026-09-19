@@ -284,7 +284,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       } catch (e) {
         // ignore
       }
-      addToast('✨ 技能卡发布成功！', '您的技能已在集市上架，等待有缘人发起互换', 'success');
+      addToast('技能卡发布成功！', '您的技能已在集市上架，等待有缘人发起互换', 'success');
     }
 
     return newCard;
@@ -306,7 +306,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     );
 
     addToast(
-      action === 'approve' ? '✅ 技能卡审核通过' : '❌ 技能卡已驳回',
+      action === 'approve' ? '技能卡审核通过' : '技能卡已驳回',
       `卡片 ID: ${cardId}，状态已更新`,
       action === 'approve' ? 'success' : 'info'
     );
@@ -386,7 +386,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
 
     addToast(
-      '📜 互换契约签署成功！',
+      '互换契约签署成功！',
       `双方进入履约协作阶段，已锁定 ${data.stakedCredits} 时光币质押金`,
       'success'
     );
@@ -495,12 +495,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
 
       addToast(
-        '🎉 恭喜结课！全部打卡完成',
+        '恭喜结课！全部打卡完成',
         `质押的 ${releaseAmount} 时光币已划转到导师账户，契约圆满交付！`,
         'success'
       );
     } else {
-      addToast('✅ 课时打卡已确认', `阶段 ${step} 进展已更新，等待另一方确认`, 'info');
+      addToast('课时打卡已确认', `阶段 ${step} 进展已更新，等待另一方确认`, 'info');
     }
   };
 
@@ -545,7 +545,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     );
 
     addToast(
-      '⚖️ 纠纷申诉已提交',
+      '纠纷申诉已提交',
       '平台管理员已收到争议工单，将介入调阅双方契约记录与凭证进行仲裁',
       'warning'
     );
@@ -658,7 +658,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     );
 
     addToast(
-      '⚖️ 仲裁裁决执行完毕',
+      '仲裁裁决执行完毕',
       verdict === 'refund_student'
         ? `已退还 ${refundOrReleaseAmount} 时光币给学员`
         : `已强制划转 ${refundOrReleaseAmount} 时光币给导师`,
@@ -687,7 +687,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setDisputes(INITIAL_DISPUTES);
     setTransactions(INITIAL_TRANSACTIONS);
     setPlatformConfigState(INITIAL_CONFIG);
-    addToast('🔄 演示数据已全量重置', '系统已恢复至初始手作社区与仲裁案例状态', 'info');
+    addToast('演示数据已全量重置', '系统已恢复至初始手作社区与仲裁案例状态', 'info');
   };
 
   return (
