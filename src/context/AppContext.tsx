@@ -28,6 +28,16 @@ interface AppContextType {
   currentRole: Role;
   activeTab: string;
   toasts: ToastMessage[];
+  // 用户鉴权与会话
+  isLoggedIn: boolean;
+  login: (email: string, password?: string) => boolean;
+  register: (data: { name: string; email: string; city?: string; title?: string; password?: string }) => boolean;
+  logout: () => void;
+  isAuthModalOpen: boolean;
+  authMode: 'login' | 'register';
+  openAuthModal: (mode?: 'login' | 'register') => void;
+  closeAuthModal: () => void;
+
   setCurrentRole: (role: Role) => void;
   setActiveTab: (tab: string) => void;
   switchUser: (userId: string) => void;
@@ -98,6 +108,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const saved = localStorage.getItem(STORAGE_KEYS.CURRENT_USER_ID);
     return saved || INITIAL_CURRENT_USER.id;
   });
+
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
+    const saved = localStorage.getItem('skillcraft_is_logged_in_v2');
+    return saved !== null ? saved === 'true' : true;
+  });
+
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
 
   const [currentRole, setCurrentRoleState] = useState<Role>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.ROLE);
@@ -229,11 +247,102 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setActiveTabState(tab);
   };
 
+  // 用户真实登录鉴权
+  const login = (email: string, _password?: string): boolean => {
+    const cleanEmail = email.trim().toLowerCase();
+    const matched = users.find(
+      (u) => (u.email && u.email.toLowerCase() === cleanEmail) || u.name.toLowerCase() === cleanEmail
+    );
+    if (matched) {
+      setCurrentUserId(matched.id);
+      setIsLoggedIn(true);
+      localStorage.setItem('skillcraft_is_logged_in_v2', 'true');
+      localStorage.setItem(STORAGE_KEYS.CURRENT_USER_ID, matched.id);
+      setIsAuthModalOpen(false);
+      addToast('登录成功', `欢迎回来，${matched.name}！`, 'success');
+      return true;
+    }
+    // 若未注册，自动创建居民身份并给予初始奖励
+    const newUser: UserProfile = {
+      id: `user-${Date.now()}`,
+      name: email.split('@')[0] || '社区居民',
+      email: cleanEmail,
+      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
+      title: '手作社区居民',
+      city: '杭州',
+      bio: '热爱手作与技能交流的新伙伴。',
+      timeCredits: 5,
+      role: 'user',
+      reputationScore: 100,
+      completedExchanges: 0,
+      taughtHours: 0,
+      learnedHours: 0,
+      badges: [],
+      teachingSkills: [],
+      seekingSkills: [],
+    };
+    setUsers((prev) => [newUser, ...prev]);
+    setCurrentUserId(newUser.id);
+    setIsLoggedIn(true);
+    localStorage.setItem('skillcraft_is_logged_in_v2', 'true');
+    localStorage.setItem(STORAGE_KEYS.CURRENT_USER_ID, newUser.id);
+    setIsAuthModalOpen(false);
+    addToast('登录成功', `已为您创建居民档案并赠送 5 时光币！`, 'success');
+    return true;
+  };
+
+  const register = (data: { name: string; email: string; city?: string; title?: string }): boolean => {
+    const newUser: UserProfile = {
+      id: `user-${Date.now()}`,
+      name: data.name.trim(),
+      email: data.email.trim(),
+      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
+      title: data.title?.trim() || '手作匠人 / 技能爱好者',
+      city: data.city?.trim() || '杭州',
+      bio: '新入驻巧遇社区，期待与大家切磋交流。',
+      timeCredits: 5,
+      role: 'user',
+      reputationScore: 100,
+      completedExchanges: 0,
+      taughtHours: 0,
+      learnedHours: 0,
+      badges: [],
+      teachingSkills: [],
+      seekingSkills: [],
+    };
+    setUsers((prev) => [newUser, ...prev]);
+    setCurrentUserId(newUser.id);
+    setIsLoggedIn(true);
+    localStorage.setItem('skillcraft_is_logged_in_v2', 'true');
+    localStorage.setItem(STORAGE_KEYS.CURRENT_USER_ID, newUser.id);
+    setIsAuthModalOpen(false);
+    addToast('入驻注册成功！', '已发放 5 时光币新人迎新学时，欢迎加入巧遇·匠心！', 'success');
+    return true;
+  };
+
+  const logout = () => {
+    setIsLoggedIn(false);
+    localStorage.setItem('skillcraft_is_logged_in_v2', 'false');
+    addToast('已安全登出', '您当前处于访客模式，可继续浏览集市', 'info');
+  };
+
+  const openAuthModal = (mode: 'login' | 'register' = 'login') => {
+    setAuthMode(mode);
+    setIsAuthModalOpen(true);
+  };
+
+  const closeAuthModal = () => {
+    setIsAuthModalOpen(false);
+  };
+
   // 切换模拟居民
   const switchUser = (userId: string) => {
     const found = users.find((u) => u.id === userId);
     if (found) {
       setCurrentUserId(userId);
+      setIsLoggedIn(true);
+      localStorage.setItem('skillcraft_is_logged_in_v2', 'true');
+      localStorage.setItem(STORAGE_KEYS.CURRENT_USER_ID, userId);
       addToast(`已切换当前登录身份为「${found.name}」`, found.title, 'info');
     }
   };
@@ -718,6 +827,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         currentRole,
         activeTab,
         toasts,
+        isLoggedIn,
+        login,
+        register,
+        logout,
+        isAuthModalOpen,
+        authMode,
+        openAuthModal,
+        closeAuthModal,
         setCurrentRole,
         setActiveTab,
         switchUser,

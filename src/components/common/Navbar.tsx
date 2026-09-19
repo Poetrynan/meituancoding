@@ -4,11 +4,10 @@ import {
   PlusCircle,
   Briefcase,
   Sparkles,
-  RotateCcw,
-  Users,
   ChevronDown,
   Coins,
-  Check,
+  LogOut,
+  User,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { getAvatarFallbackSvg, handleImageError } from '../../utils/imageFallback';
@@ -22,10 +21,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPublishModal }) => {
     currentUser,
     activeTab,
     setActiveTab,
-    users,
-    switchUser,
-    resetAllData,
     contracts,
+    isLoggedIn,
+    logout,
+    openAuthModal,
   } = useApp();
 
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
@@ -36,6 +35,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPublishModal }) => {
       c.status === 'active' &&
       (c.teacherId === currentUser.id || c.studentId === currentUser.id)
   ).length;
+
+  const handlePublishClick = () => {
+    if (!isLoggedIn) {
+      openAuthModal('login');
+      return;
+    }
+    onOpenPublishModal();
+  };
 
   return (
     <header className="sticky top-0 z-40 bg-[#FDFBF7]/95 backdrop-blur-md border-b border-stone-200/80 shadow-[0_1px_3px_rgba(44,40,37,0.03)]">
@@ -75,8 +82,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPublishModal }) => {
               </button>
 
               <button
-                onClick={onOpenPublishModal}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap text-[#9E5A44] hover:bg-white/80 transition-all"
+                onClick={handlePublishClick}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap text-[#9E5A44] hover:bg-white/80 transition-all cursor-pointer"
               >
                 <PlusCircle className="w-3.5 h-3.5 flex-shrink-0" />
                 <span className="whitespace-nowrap">发布技能</span>
@@ -113,93 +120,105 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPublishModal }) => {
             </nav>
           </div>
 
-          {/* 右侧：时光币资产胶囊 + 居民身份选择器 + 重置 */}
-          <div className="flex items-center gap-3 flex-shrink-0">
-            {/* 时光币余额胶囊 */}
-            <button
-              onClick={() => setActiveTab('timebank')}
-              className="flex items-center gap-1.5 bg-[#FEF7EC] border border-[#E9C380]/60 text-stone-800 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap hover:bg-[#FDF0DA] transition-colors shadow-sm"
-            >
-              <Coins className="w-3.5 h-3.5 text-[#D99636] flex-shrink-0" />
-              <span className="font-bold">{currentUser.timeCredits}</span>
-              <span className="text-[11px] text-stone-500 font-normal whitespace-nowrap">时光币</span>
-            </button>
-
-            {/* 居民切换下拉 */}
-            <div className="relative flex-shrink-0">
+          {/* 右侧：登录/注册 或 居民信息菜单 */}
+          {!isLoggedIn ? (
+            <div className="flex items-center gap-2 flex-shrink-0">
               <button
-                onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 bg-white border border-stone-200 rounded-full hover:border-[#9E5A44]/60 transition-colors shadow-sm"
+                onClick={() => openAuthModal('login')}
+                className="px-3.5 py-1.5 rounded-xl text-xs font-bold text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition-all cursor-pointer"
               >
-                <img
-                  src={currentUser.avatar}
-                  alt={currentUser.name}
-                  onError={(e) => handleImageError(e, getAvatarFallbackSvg(currentUser.name))}
-                  className="w-6 h-6 rounded-full object-cover border border-stone-200 flex-shrink-0"
-                />
-                <span className="text-xs font-bold text-stone-800 whitespace-nowrap hidden sm:inline-block">
-                  {currentUser.name}
-                </span>
-                <ChevronDown className="w-3 h-3 text-stone-400 flex-shrink-0" />
+                登录
+              </button>
+              <button
+                onClick={() => openAuthModal('register')}
+                className="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#9E5A44] hover:bg-[#854B38] text-white shadow-sm transition-all cursor-pointer"
+              >
+                注册入驻
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3 flex-shrink-0">
+              {/* 时光币余额胶囊 */}
+              <button
+                onClick={() => setActiveTab('timebank')}
+                className="flex items-center gap-1.5 bg-[#FEF7EC] border border-[#E9C380]/60 text-stone-800 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap hover:bg-[#FDF0DA] transition-colors shadow-sm cursor-pointer"
+              >
+                <Coins className="w-3.5 h-3.5 text-[#D99636] flex-shrink-0" />
+                <span className="font-bold">{currentUser.timeCredits}</span>
+                <span className="text-[11px] text-stone-500 font-normal whitespace-nowrap">时光币</span>
               </button>
 
-              {/* 居民切换下拉浮层 */}
-              {isUserDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-60 bg-white rounded-2xl shadow-xl border border-stone-200 py-1.5 z-50 animate-in fade-in">
-                  <div className="px-3 py-1.5 border-b border-stone-100 mb-1">
-                    <p className="text-[11px] font-bold text-stone-500 uppercase tracking-wider flex items-center gap-1 whitespace-nowrap">
-                      <Users className="w-3 h-3" />
-                      当前登录居民
-                    </p>
-                  </div>
+              {/* 个人菜单 */}
+              <div className="relative flex-shrink-0">
+                <button
+                  onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                  className="flex items-center gap-2 pl-1.5 pr-2.5 py-1 bg-white border border-stone-200 rounded-full hover:border-[#9E5A44]/60 transition-colors shadow-sm cursor-pointer"
+                >
+                  <img
+                    src={currentUser.avatar}
+                    alt={currentUser.name}
+                    onError={(e) => handleImageError(e, getAvatarFallbackSvg(currentUser.name))}
+                    className="w-6 h-6 rounded-full object-cover border border-stone-200 flex-shrink-0"
+                  />
+                  <span className="text-xs font-bold text-stone-800 whitespace-nowrap hidden sm:inline-block">
+                    {currentUser.name}
+                  </span>
+                  <ChevronDown className="w-3 h-3 text-stone-400 flex-shrink-0" />
+                </button>
 
-                  <div className="max-h-56 overflow-y-auto">
-                    {users
-                      .filter((u) => u.role === 'user')
-                      .map((u) => (
-                        <button
-                          key={u.id}
-                          onClick={() => {
-                            switchUser(u.id);
-                            setIsUserDropdownOpen(false);
-                          }}
-                          className={`w-full px-3 py-2 text-left flex items-center gap-2 hover:bg-stone-50 transition-colors ${
-                            u.id === currentUser.id ? 'bg-[#FAF2EE]' : ''
-                          }`}
-                        >
-                          <img
-                            src={u.avatar}
-                            alt={u.name}
-                            onError={(e) => handleImageError(e, getAvatarFallbackSvg(u.name))}
-                            className="w-7 h-7 rounded-full object-cover border border-stone-200 flex-shrink-0"
-                          />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-xs font-bold text-stone-800 truncate whitespace-nowrap">
-                              {u.name}
-                            </p>
-                            <p className="text-[11px] text-stone-500 truncate whitespace-nowrap">
-                              {u.title}
-                            </p>
-                          </div>
-                          {u.id === currentUser.id && (
-                            <Check className="w-3.5 h-3.5 text-[#9E5A44] flex-shrink-0" />
-                          )}
-                        </button>
-                      ))}
+                {/* 个人下拉浮层 */}
+                {isUserDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-stone-200 py-1.5 z-50 animate-in fade-in">
+                    <div className="px-3.5 py-2.5 border-b border-stone-100">
+                      <p className="text-xs font-bold text-stone-900 truncate">
+                        {currentUser.name}
+                      </p>
+                      <p className="text-[11px] text-stone-500 truncate mt-0.5">
+                        {currentUser.title} · {currentUser.city}
+                      </p>
+                    </div>
+
+                    <div className="py-1">
+                      <button
+                        onClick={() => {
+                          setActiveTab('timebank');
+                          setIsUserDropdownOpen(false);
+                        }}
+                        className="w-full px-3.5 py-2 text-left text-xs text-stone-700 hover:bg-stone-50 flex items-center gap-2 transition-colors cursor-pointer"
+                      >
+                        <Coins className="w-3.5 h-3.5 text-[#D99636]" />
+                        <span>我的时光存折</span>
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setActiveTab('workbench');
+                          setIsUserDropdownOpen(false);
+                        }}
+                        className="w-full px-3.5 py-2 text-left text-xs text-stone-700 hover:bg-stone-50 flex items-center gap-2 transition-colors cursor-pointer"
+                      >
+                        <Briefcase className="w-3.5 h-3.5 text-stone-500" />
+                        <span>我的协作看板</span>
+                      </button>
+                    </div>
+
+                    <div className="border-t border-stone-100 pt-1">
+                      <button
+                        onClick={() => {
+                          setIsUserDropdownOpen(false);
+                          logout();
+                        }}
+                        className="w-full px-3.5 py-2 text-left text-xs text-rose-600 hover:bg-rose-50 flex items-center gap-2 transition-colors cursor-pointer"
+                      >
+                        <LogOut className="w-3.5 h-3.5" />
+                        <span>退出登录</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
-
-            {/* 一键重置演示数据 */}
-            <button
-              onClick={resetAllData}
-              title="重置本地演示数据"
-              className="p-1.5 rounded-lg text-stone-400 hover:text-[#9E5A44] hover:bg-white border border-transparent hover:border-stone-200 transition-all flex-shrink-0"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </button>
-          </div>
+          )}
         </div>
       </div>
     </header>

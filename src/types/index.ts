@@ -39,6 +39,7 @@ export interface UserBadge {
 export interface UserProfile {
   id: string;
   name: string;
+  email?: string;
   avatar: string;
   title: string;
   bio: string;

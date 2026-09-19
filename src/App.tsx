@@ -10,20 +10,25 @@ import { SwapWorkbench } from './components/community/SwapWorkbench';
 import { TimeBankProfile } from './components/community/TimeBankProfile';
 import { AdminLogin } from './components/admin/AdminLogin';
 import { AdminShell } from './components/admin/AdminShell';
+import { UserAuthModal } from './components/common/UserAuthModal';
 import { SkillCard } from './types';
-import { Heart, Sparkles, ShieldCheck, Compass, Shield } from 'lucide-react';
+import { Heart, Sparkles, Compass } from 'lucide-react';
 
 /**
  * 前台用户端主视图 (纯净温暖手作风，无任何管理后台杂质)
  */
 const MainUserPortal: React.FC = () => {
-  const { activeTab } = useApp();
+  const { activeTab, isLoggedIn, openAuthModal } = useApp();
 
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
   const [selectedSwapCard, setSelectedSwapCard] = useState<SkillCard | null>(null);
   const [isContractModalOpen, setIsContractModalOpen] = useState(false);
 
   const handleInitiateSwap = (card: SkillCard) => {
+    if (!isLoggedIn) {
+      openAuthModal('login');
+      return;
+    }
     setSelectedSwapCard(card);
     setIsContractModalOpen(true);
   };
@@ -37,7 +42,13 @@ const MainUserPortal: React.FC = () => {
       <main className="flex-1">
         {activeTab === 'marketplace' && (
           <SkillMarketplace
-            onOpenPublishModal={() => setIsPublishModalOpen(true)}
+            onOpenPublishModal={() => {
+              if (!isLoggedIn) {
+                openAuthModal('login');
+                return;
+              }
+              setIsPublishModalOpen(true);
+            }}
             onInitiateSwap={handleInitiateSwap}
           />
         )}
@@ -46,6 +57,9 @@ const MainUserPortal: React.FC = () => {
 
         {activeTab === 'timebank' && <TimeBankProfile />}
       </main>
+
+      {/* 用户登录注册弹窗 */}
+      <UserAuthModal />
 
       {/* 发布技能向导弹窗 */}
       <PublishSkillModal
@@ -80,13 +94,7 @@ const MainUserPortal: React.FC = () => {
           <div className="pt-2 text-xs text-stone-400 flex items-center justify-center gap-2">
             <span>SkillCraft © 2026</span>
             <span>·</span>
-            <a
-              href="#/admin"
-              className="inline-flex items-center gap-1 hover:text-stone-700 transition-colors text-stone-400 text-xs cursor-pointer"
-            >
-              <Shield className="w-3.5 h-3.5 text-stone-400" />
-              <span>管理控制台</span>
-            </a>
+            <span>以技换技，各取所长</span>
           </div>
         </div>
       </footer>
