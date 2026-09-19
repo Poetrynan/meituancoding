@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import {
   ShieldCheck,
   AlertTriangle,
@@ -213,9 +214,15 @@ export const SkillAuditTable: React.FC = () => {
       </div>
 
       {/* 驳回确认弹窗 */}
-      {isRejectModalOpen && inspectingCard && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-craft-ink/40 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 border-2 border-red-200 shadow-2xl space-y-4">
+      {isRejectModalOpen && inspectingCard && ReactDOM.createPortal(
+        <div
+          className="fixed inset-0 z-[1000] flex items-center justify-center p-3 sm:p-6 bg-stone-900/60 backdrop-blur-sm overflow-hidden animate-in fade-in"
+          onClick={() => setIsRejectModalOpen(false)}
+        >
+          <div
+            className="bg-white rounded-3xl max-w-md w-full p-6 border-2 border-red-200 shadow-2xl space-y-4"
+            onClick={(e) => e.stopPropagation()}
+          >
             <h3 className="font-bold text-base text-red-600 flex items-center gap-2">
               <AlertTriangle className="w-5 h-5" />
               驳回该技能卡发布申请
@@ -239,19 +246,20 @@ export const SkillAuditTable: React.FC = () => {
             <div className="flex items-center justify-end gap-2 pt-2">
               <button
                 onClick={() => setIsRejectModalOpen(false)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-craft-ink-light hover:bg-black/5"
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-craft-ink-light hover:bg-black/5 cursor-pointer"
               >
                 取消
               </button>
               <button
                 onClick={handleConfirmReject}
-                className="px-4 py-2 rounded-xl bg-red-600 text-white text-xs font-bold hover:bg-red-700 shadow-sm"
+                className="px-4 py-2 rounded-xl bg-red-600 text-white text-xs font-bold hover:bg-red-700 shadow-sm cursor-pointer"
               >
                 确认驳回
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

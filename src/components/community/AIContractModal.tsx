@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import {
   X,
   Sparkles,
@@ -30,6 +31,16 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
 
   // 默认三阶段课纲大纲
   const [milestones, setMilestones] = useState<ContractMilestone[]>([]);
+
+  // 模态框打开时锁定底板滚动，关闭时恢复
+  useEffect(() => {
+    if (!isOpen || !card) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen, card]);
 
   useEffect(() => {
     if (!card) return;
@@ -175,14 +186,19 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
     onClose();
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-craft-ink/50 backdrop-blur-sm animate-in fade-in">
+  if (!isOpen || !card) return null;
+
+  return ReactDOM.createPortal(
+    <div
+      className="fixed inset-0 z-[1000] flex items-center justify-center p-3 sm:p-6 bg-stone-900/60 backdrop-blur-sm overflow-hidden"
+      onClick={onClose}
+    >
       <div
-        className="bg-white rounded-3xl max-w-3xl w-full max-h-[92vh] overflow-y-auto border-2 border-craft-border shadow-2xl relative flex flex-col"
+        className="bg-white rounded-3xl max-w-3xl w-full max-h-[92vh] border-2 border-craft-border shadow-2xl relative flex flex-col overflow-hidden animate-in fade-in"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 顶部契约卷轴风格标题 */}
-        <div className="p-6 pb-4 border-b border-craft-border flex items-center justify-between bg-gradient-to-r from-[#FAF6F0] via-[#F5EFEB] to-[#FAF6F0]">
+        <div className="p-6 pb-4 border-b border-craft-border flex items-center justify-between bg-gradient-to-r from-[#FAF6F0] via-[#F5EFEB] to-[#FAF6F0] flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-craft-terracotta text-white flex items-center justify-center shadow-sm">
               <Scroll className="w-5 h-5" />
@@ -204,14 +220,14 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
 
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-black/5 text-craft-ink-light transition-colors"
+            className="p-2 rounded-full hover:bg-black/5 text-craft-ink-light transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* 模态主体内容 */}
-        <div className="p-6 space-y-6 flex-1">
+        {/* 模态主体内容：专属 modal-scrollbar 滚动 */}
+        <div className="p-6 space-y-6 flex-1 overflow-y-auto modal-scrollbar">
           {/* 缔约双方卡片对调 */}
           <div className="p-4 bg-craft-paper rounded-2xl border border-craft-border flex flex-col sm:flex-row items-center justify-between gap-4">
             {/* 导师方 */}
@@ -358,8 +374,8 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
           </div>
         </div>
 
-        {/* 底部确认签署栏 */}
-        <div className="p-4 bg-craft-paper border-t border-craft-border flex items-center justify-between gap-4">
+        {/* 底部确认签署栏：固定在卡片底部 */}
+        <div className="p-4 bg-craft-paper border-t border-craft-border flex items-center justify-between gap-4 flex-shrink-0">
           <div className="flex items-center gap-2">
             <Coins className="w-5 h-5 text-craft-amber" />
             <div>
@@ -373,13 +389,13 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
           <div className="flex items-center gap-3">
             <button
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl text-xs font-semibold text-craft-ink-light hover:bg-black/5 transition-colors"
+              className="px-4 py-2.5 rounded-xl text-xs font-semibold text-craft-ink-light hover:bg-black/5 transition-colors cursor-pointer"
             >
               暂不签署
             </button>
             <button
               onClick={handleConfirmContract}
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-craft-terracotta to-craft-amber text-white text-xs font-bold shadow-md hover:scale-105 transition-all flex items-center gap-1.5"
+              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-craft-terracotta to-craft-amber text-white text-xs font-bold shadow-md hover:scale-105 transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <Sparkles className="w-4 h-4" />
               <span>确认课纲并签署契约</span>
@@ -387,6 +403,7 @@ export const AIContractModal: React.FC<AIContractModalProps> = ({ card, isOpen, 
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

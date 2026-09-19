@@ -64,7 +64,7 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FAF6F0;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: #D9CEC2;
@@ -73,3 +73,25 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #9E5A44;
 }
+
+/* 模态框专属微滚动条：上下内缩边距避开圆角，轨道透明，绝不切角 */
+.modal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #D9CEC2 transparent;
+}
+.modal-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.modal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.modal-scrollbar::-webkit-scrollbar-thumb {
+  background: #D9CEC2;
+  border-radius: 9999px;
+}
+.modal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #9E5A44;
+}
+

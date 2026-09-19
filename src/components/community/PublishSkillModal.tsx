@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import {
   X,
   Sparkles,
@@ -51,6 +52,16 @@ const PRESET_PORTFOLIOS = [
 
 export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, onClose }) => {
   const { publishSkill, currentUser } = useApp();
+
+  // 模态框打开时锁定底板滚动，关闭时恢复
+  useEffect(() => {
+    if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen]);
 
   const [step, setStep] = useState<1 | 2>(1);
   const [isAiPolishing, setIsAiPolishing] = useState(false);
@@ -148,14 +159,19 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
     onClose();
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-craft-ink/40 backdrop-blur-sm animate-in fade-in">
+  if (!isOpen) return null;
+
+  return ReactDOM.createPortal(
+    <div
+      className="fixed inset-0 z-[1000] flex items-center justify-center p-3 sm:p-6 bg-stone-900/60 backdrop-blur-sm overflow-hidden"
+      onClick={onClose}
+    >
       <div
-        className="bg-white rounded-3xl max-w-2xl w-full max-h-[92vh] overflow-y-auto border-2 border-craft-border shadow-2xl relative flex flex-col"
+        className="bg-white rounded-3xl max-w-2xl w-full max-h-[92vh] border-2 border-craft-border shadow-2xl relative flex flex-col overflow-hidden animate-in fade-in"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 顶部标题与关闭 */}
-        <div className="p-6 pb-4 border-b border-craft-border flex items-center justify-between bg-craft-paper">
+        <div className="p-6 pb-4 border-b border-craft-border flex items-center justify-between bg-craft-paper flex-shrink-0">
           <div>
             <span className="stamp-badge text-[11px] font-bold text-craft-terracotta bg-craft-terracotta-light border-craft-terracotta mb-1">
               STEP {step} / 2
@@ -167,14 +183,15 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
 
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-black/5 text-craft-ink-light transition-colors"
+            className="p-2 rounded-full hover:bg-black/5 text-craft-ink-light transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* 步骤内容区域 */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6 flex-1">
+        {/* 步骤内容区域：外层 flex-1 flex flex-col，中间内部使用 modal-scrollbar 滚动 */}
+        <form onSubmit={handleSubmit} className="flex-1 flex flex-col min-h-0">
+          <div className="flex-1 overflow-y-auto modal-scrollbar p-6 space-y-6">
           {step === 1 ? (
             <div className="space-y-4">
               {/* 技能名称 */}
@@ -465,14 +482,15 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
               </div>
             </div>
           )}
+          </div>
 
-          {/* 底部导航与提交按钮 */}
-          <div className="pt-4 border-t border-craft-border flex items-center justify-between">
+          {/* 底部导航与提交按钮：固定在表单底部 */}
+          <div className="p-4 bg-craft-paper border-t border-craft-border flex items-center justify-between gap-3 flex-shrink-0">
             {step === 2 ? (
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="flex items-center gap-1 px-4 py-2 rounded-xl text-xs font-bold text-craft-ink-light hover:bg-black/5 transition-colors"
+                className="flex items-center gap-1 px-4 py-2 rounded-xl text-xs font-bold text-craft-ink-light hover:bg-black/5 transition-colors cursor-pointer"
               >
                 <ArrowLeft className="w-4 h-4" />
                 上一步
@@ -491,7 +509,7 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
                   }
                   setStep(2);
                 }}
-                className="flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-craft-terracotta text-white text-xs font-bold hover:bg-craft-terracotta-dark transition-colors shadow-sm"
+                className="flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-craft-terracotta text-white text-xs font-bold hover:bg-craft-terracotta-dark transition-colors shadow-sm cursor-pointer"
               >
                 <span>下一步：我想学什么</span>
                 <ArrowRight className="w-4 h-4" />
@@ -499,7 +517,7 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
             ) : (
               <button
                 type="submit"
-                className="flex items-center gap-1.5 px-8 py-2.5 rounded-xl bg-gradient-to-r from-craft-terracotta to-craft-amber text-white text-xs font-bold hover:scale-105 transition-all shadow-md"
+                className="flex items-center gap-1.5 px-8 py-2.5 rounded-xl bg-gradient-to-r from-craft-terracotta to-craft-amber text-white text-xs font-bold hover:scale-105 transition-all shadow-md cursor-pointer"
               >
                 <Sparkles className="w-4 h-4" />
                 <span>完成并发布我的技能卡</span>
@@ -508,6 +526,7 @@ export const PublishSkillModal: React.FC<PublishSkillModalProps> = ({ isOpen, on
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
